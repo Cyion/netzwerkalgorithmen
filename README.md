@@ -1,2 +1,2 @@
 # netzwerkalgorithmen
-Skript for Netzwerkalgorithmen
+Script for Netzwerkalgorithmen
