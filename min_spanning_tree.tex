@@ -1,0 +1,56 @@
+\section{Minimale aufspannende Bäume}
+	\begin{problem}[minimaler aufspannender Baum / kürzestes zsgd.es Netzwerk]~\\[5pt]
+		\hspace*{10pt}\textbf{Gegeben: } Ein Graph $G = (V, E)$, Gewichtfunktion
+		\begin{eqnarray*}
+			c : E &\to& \reell_+\\
+			e &\mapsto& c_e
+		\end{eqnarray*}
+		\hspace*{10pt}\textbf{Gesucht: } Eine Kantenmenge $F\subseteq E$ mit möglichst geringen Gesamtgewicht $\sum_{e \in F} c_e$, \hspace*{60pt}so dass in $T = (V, F)$ alle Knoten verbunden sind ODER entscheide, dass \hspace*{56pt} $G$ nicht zshgd. ist.
+	\end{problem}\vspace*{10pt}
+	\begin{enumerate}
+		\item Welche Eigenschaften haben Lösungen?\\
+		$\hookrightarrow$Struktur
+		\item Wie findet man optimale Lösungen?
+		\item Können wir algorithmische Grundideen verwenden, die auch in anderen Situationen funktionieren?
+		\item Effizienz
+	\end{enumerate}
+	\begin{beobachtung*}
+		Ein optimale Lösung für Problem 2.1 kann kein Kreis enthalten. (Beweisskizze: Entfernt man aus einem Kreis eine Kante bleibt der Rest immer noch verbunden).
+	\end{beobachtung*}
+	\begin{satz}
+		Eine optimale Lösung für Problem 2.1 ist zusammenhängend und kreisfrei, also ein Baum.
+	\end{satz}
+	\begin{proof}
+			Klar.
+	\end{proof}
+	Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ Knoten? Mit jeder eingefügten Kante nimmt die Zahl der Zhk. um 1 ab (mit jeder gelöschten um 1 zu).
+	\begin{beobachtung*}
+		Ein Baum mit $n$ Knoten hat $n-1$ Kanten. ABER: Nicht jeder Graph mit $n-1$ Kanten und $n$ Knoten ist ein Baum.
+	\end{beobachtung*}
+	\begin{definition}
+		Für einen Graphen $G$ und $X,Y\subseteq V(G)$ ist
+		\begin{eqnarray*}
+			E(X,Y) &=& \set{\set{x,y}\in E(G)\vert x \in X\setminus Y,~y \in Y\setminus X}\\
+			E^+(X,Y) &=& \set{(x,y)\in E(G)\vert x \in X\setminus Y,~y \in Y\setminus X}
+		\end{eqnarray*}
+		Für einen ungerichteten Graphen $G$ und $X \subseteq V(G)$
+		\begin{equation*}
+			\delta(X) = E(X, V(G)\setminus X)
+		\end{equation*}
+		Für einen gerichteten Graphen $G$ und $X\subseteq V(G)$
+		\begin{eqnarray*}
+			\delta^+(X) &=& E^+(X, V(G)\setminus X)\\
+			\delta^-(X) &=& \delta^+(V(G)\setminus X)\\
+			\delta(X) &=& \delta^+(X) \cup \delta^-(X)
+		\end{eqnarray*}
+	\end{definition}
+	\begin{lemma}~
+		\begin{enumerate}[a)]
+			\item Ein ungerichteter Graph $G$ ist zusammenhängend $\Leftrightarrow \delta(X) \neq \emptyset~ \forall ~\emptyset \neq X \subset V(G)$.
+			\item Sei $G$ ein gerichteter Graph und $r \in V(G)$. Dann gibt es einen Pfad von $r$ nach $v$ für jeden $v \in V(G) \Leftrightarrow \delta^+(X) \neq \emptyset~\forall~X\subset V(G)$ mit $r\in X$.
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		
+	\end{proof}
+	

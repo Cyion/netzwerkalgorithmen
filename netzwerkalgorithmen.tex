@@ -1,0 +1,34 @@
+\documentclass[a4paper,10pt]{scrreprt}
+	\usepackage{sty/package}
+	\usepackage{sty/document}
+	\usepackage{sty/mathematic}
+	\usepackage{chngcntr}
+	\usepackage{mathtools}
+	\usepackage{algorithm2e}
+
+	\lstset{
+	basicstyle=\ttfamily,
+	mathescape
+	}
+	\setlength\parindent{0pt}
+	
+	\pagestyle{fancy}
+	\fancyhead[R]{Netzwerkalgorithmen}
+	\fancyhead[L]{Pascal Reichert, Informatik}
+	
+	\counterwithout{section}{chapter}
+	\counterwithout{figure}{chapter}
+	\setcounter{chapter}{1}
+	
+	\renewcommand{\labelitemi}{$-$}
+	
+	\renewcommand*{\algorithmcfname}{Algorithmus}
+	\RestyleAlgo{boxed}
+	\LinesNumbered
+	\SetKwInOut{Input}{Eingabe}
+	\SetKwInOut{Output}{Ausgabe}
+
+\begin{document}
+	\include{graphen}
+	\include{min_spanning_tree}
+\end{document}
