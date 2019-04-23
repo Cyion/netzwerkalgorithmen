@@ -1,0 +1,2 @@
+# netzwerkalgorithmen
+Skript for Netzwerkalgorithmen
