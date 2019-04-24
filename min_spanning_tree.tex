@@ -1,56 +1,98 @@
 \section{Minimale aufspannende Bäume}
-	\begin{problem}[minimaler aufspannender Baum / kürzestes zsgd.es Netzwerk]~\\[5pt]
-		\hspace*{10pt}\textbf{Gegeben: } Ein Graph $G = (V, E)$, Gewichtfunktion
-		\begin{eqnarray*}
-			c : E &\to& \reell_+\\
-			e &\mapsto& c_e
-		\end{eqnarray*}
-		\hspace*{10pt}\textbf{Gesucht: } Eine Kantenmenge $F\subseteq E$ mit möglichst geringen Gesamtgewicht $\sum_{e \in F} c_e$, \hspace*{60pt}so dass in $T = (V, F)$ alle Knoten verbunden sind ODER entscheide, dass \hspace*{56pt} $G$ nicht zshgd. ist.
-	\end{problem}\vspace*{10pt}
-	\begin{enumerate}
-		\item Welche Eigenschaften haben Lösungen?\\
-		$\hookrightarrow$Struktur
-		\item Wie findet man optimale Lösungen?
-		\item Können wir algorithmische Grundideen verwenden, die auch in anderen Situationen funktionieren?
-		\item Effizienz
+\begin{problem}[minimaler aufspannender Baum / kürzestes zsgd.es Netzwerk]~\\[5pt]
+	\hspace*{10pt}\textbf{Gegeben: } Ein Graph $G = (V, E)$, Gewichtfunktion
+	\begin{eqnarray*}
+		c : E &\to& \reell_+\\
+		e &\mapsto& c_e
+	\end{eqnarray*}
+	\hspace*{10pt}\textbf{Gesucht: } Eine Kantenmenge $F\subseteq E$ mit möglichst geringen Gesamtgewicht $\sum_{e \in F} c_e$, \hspace*{60pt}so dass in $T = (V, F)$ alle Knoten verbunden sind ODER entscheide, dass \hspace*{56pt} $G$ nicht zshgd. ist.
+\end{problem}\vspace*{10pt}
+\begin{enumerate}
+	\item Welche Eigenschaften haben Lösungen?\\
+	$\hookrightarrow$Struktur
+	\item Wie findet man optimale Lösungen?
+	\item Können wir algorithmische Grundideen verwenden, die auch in anderen Situationen funktionieren?
+	\item Effizienz
+\end{enumerate}
+\begin{beobachtung*}
+	Ein optimale Lösung für Problem 2.1 kann kein Kreis enthalten. (Beweisskizze: Entfernt man aus einem Kreis eine Kante bleibt der Rest immer noch verbunden).
+\end{beobachtung*}
+\begin{satz}
+	Eine optimale Lösung für Problem 2.1 ist zusammenhängend und kreisfrei, also ein Baum.
+\end{satz}
+\begin{proof}
+	Klar.
+\end{proof}
+Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ Knoten? Mit jeder eingefügten Kante nimmt die Zahl der Zhk. um 1 ab (mit jeder gelöschten um 1 zu).
+\begin{beobachtung*}
+	Ein Baum mit $n$ Knoten hat $n-1$ Kanten. ABER: Nicht jeder Graph mit $n-1$ Kanten und $n$ Knoten ist ein Baum.
+\end{beobachtung*}
+\begin{definition}
+	Für einen Graphen $G$ und $X,Y\subseteq V(G)$ ist
+	\begin{eqnarray*}
+		E(X,Y) &=& \set{\set{x,y}\in E(G)\vert x \in X\setminus Y,~y \in Y\setminus X}\\
+		E^+(X,Y) &=& \set{(x,y)\in E(G)\vert x \in X\setminus Y,~y \in Y\setminus X}
+	\end{eqnarray*}
+	Für einen ungerichteten Graphen $G$ und $X \subseteq V(G)$
+	\begin{equation*}
+	\delta(X) = E(X, V(G)\setminus X)
+	\end{equation*}
+	Für einen gerichteten Graphen $G$ und $X\subseteq V(G)$
+	\begin{eqnarray*}
+		\delta^+(X) &=& E^+(X, V(G)\setminus X)\\
+		\delta^-(X) &=& \delta^+(V(G)\setminus X)\\
+		\delta(X) &=& \delta^+(X) \cup \delta^-(X)
+	\end{eqnarray*}
+\end{definition}
+\begin{lemma}~
+	\begin{enumerate}[a)]
+		\item Ein ungerichteter Graph $G$ ist zusammenhängend $\Leftrightarrow \delta(X) \neq \emptyset~ \forall ~\emptyset \neq X \subset V(G)$.
+		\item Sei $G$ ein gerichteter Graph und $r \in V(G)$. Dann gibt es einen Pfad von $r$ nach $v$ für jeden $v \in V(G) \Leftrightarrow \delta^+(X) \neq \emptyset~\forall~X\subset V(G)$ mit $r\in X$.
 	\end{enumerate}
-	\begin{beobachtung*}
-		Ein optimale Lösung für Problem 2.1 kann kein Kreis enthalten. (Beweisskizze: Entfernt man aus einem Kreis eine Kante bleibt der Rest immer noch verbunden).
-	\end{beobachtung*}
-	\begin{satz}
-		Eine optimale Lösung für Problem 2.1 ist zusammenhängend und kreisfrei, also ein Baum.
-	\end{satz}
-	\begin{proof}
-			Klar.
-	\end{proof}
-	Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ Knoten? Mit jeder eingefügten Kante nimmt die Zahl der Zhk. um 1 ab (mit jeder gelöschten um 1 zu).
-	\begin{beobachtung*}
-		Ein Baum mit $n$ Knoten hat $n-1$ Kanten. ABER: Nicht jeder Graph mit $n-1$ Kanten und $n$ Knoten ist ein Baum.
-	\end{beobachtung*}
-	\begin{definition}
-		Für einen Graphen $G$ und $X,Y\subseteq V(G)$ ist
-		\begin{eqnarray*}
-			E(X,Y) &=& \set{\set{x,y}\in E(G)\vert x \in X\setminus Y,~y \in Y\setminus X}\\
-			E^+(X,Y) &=& \set{(x,y)\in E(G)\vert x \in X\setminus Y,~y \in Y\setminus X}
-		\end{eqnarray*}
-		Für einen ungerichteten Graphen $G$ und $X \subseteq V(G)$
-		\begin{equation*}
-			\delta(X) = E(X, V(G)\setminus X)
-		\end{equation*}
-		Für einen gerichteten Graphen $G$ und $X\subseteq V(G)$
-		\begin{eqnarray*}
-			\delta^+(X) &=& E^+(X, V(G)\setminus X)\\
-			\delta^-(X) &=& \delta^+(V(G)\setminus X)\\
-			\delta(X) &=& \delta^+(X) \cup \delta^-(X)
-		\end{eqnarray*}
-	\end{definition}
-	\begin{lemma}~
-		\begin{enumerate}[a)]
-			\item Ein ungerichteter Graph $G$ ist zusammenhängend $\Leftrightarrow \delta(X) \neq \emptyset~ \forall ~\emptyset \neq X \subset V(G)$.
-			\item Sei $G$ ein gerichteter Graph und $r \in V(G)$. Dann gibt es einen Pfad von $r$ nach $v$ für jeden $v \in V(G) \Leftrightarrow \delta^+(X) \neq \emptyset~\forall~X\subset V(G)$ mit $r\in X$.
-		\end{enumerate}
-	\end{lemma}
-	\begin{proof}
-		
-	\end{proof}
+\end{lemma}
+\begin{proof}~
+	\begin{enumerate}[a)]
+		\item Gibt es eine Menge $X\subset V(G)$ mit $r\in X,~v\in V(G)\setminus X$ und $\delta(X) = \emptyset$ dann kann es keinen $r$-$v$-Pfad geben, damit ist $G$ nicht zusammenhängend. Wenn $G$ nicht zusammenhängend ist, dann gibt es für irgendwelche Knoten $r$ und $v$ keinen $r$-$v$-Pfad. Sei $R$ die Menge der Knoten, die von $r$ aus erreichbar sind. Es gilt $r\in R,~v\notin R$ und $\delta(R)=\emptyset$.
+		\item H.A.
+	\end{enumerate}
+\end{proof}
+\begin{satz}[Eigenschaften von Bäumen]
+	Sei $T=(V,F)$ ein Graph mit $n$ Knoten. Dann sind äquivalent
+	\begin{enumerate}[a)]
+		\item $T$ ist ein Baum (zshgd., kreisfrei).
+		\item $T$ hat $n-1$ Kanten und ist kreisfrei.
+		\item $T$ hat $n-1$ Kanten und ist zshgd..
+		\item $T$ ist ein minimaler zusammenhängender Graph (D.h. keine Kante kann entfernt werden ohne dass der Zusammenhang verloren geht).
+		\item $T$ ist ein minimaler Graph, für den es für jede Knotenmenge $\emptyset \neq X\subseteq V$ eine nach außen verbindende Kante gibt $\delta(X) \neq \emptyset$.
+		\item $T$ ist ein maximaler kreisfreier Graph (D.h. keine Kante kann hinzugefügt werden ohne dass ein Kreis entsteht).
+		\item $T$ enthält einen eindeutigen Pfad zwischen je zwei Knoten.
+	\end{enumerate}
+\end{satz}
+\begin{proof}
+	Wir zeigen a) $\Rightarrow$ g) $\Rightarrow$ e) $\Rightarrow$ d) $\Rightarrow$ f) $\Rightarrow$ b) $\Rightarrow$ c) $\Rightarrow$ a) (Ringschluss).\\
+	a) $\Rightarrow$ g): Weil $T$ zusammenhängend ist, muss es je einen Pfad zwischen zwei Knoten geben. Gebe es zwischen zwei Knoten mehr als einen Pfad, so enthielte die Vereinigung der Pfade einen Kreis $\lightning$ Kreisfreiheit.\\
+	g) $\Rightarrow$ e) $\Rightarrow$ d): Folgt aus Lemma 2.1. a).\\
+	d) $\Rightarrow$ f): Da alle Knoten bereits verbunden sind, liefert jede eingefügte Kante einen Kreis.
+	f) $\Rightarrow$ b) $\Rightarrow$ c): Ist klar, wenn man Lemma 2.2 zeigt.
+	c) $\Rightarrow$ a): Sei $T$ zusammenhängend mit $n-1$ Kanten. Solange Kreise in $T$ existieren löschen wir eine der Kanten des Kreises und entfernen somit den Kreis. Angenommen wir haben $k$ Kanten entfernt. Der entstehende Graph $T'$ ist immer noch zusammenhängend und kreisfrei. Wir haben $p=1$ Komponenten und $m=(n-1)-k$ Kanten $\overset{Lemma~2.2}{\Rightarrow} n =m+p=n-1-k+1 \Rightarrow k=0$. 
+\end{proof}
+\begin{lemma}
+	$W$ sei ein Wald mit $n$ Knoten, $m$ Kanten und $p$ ZhK.. Dann gilt $n=m+p$.
+\end{lemma}
+\begin{proof}
+	H.A.
+\end{proof}
+\subsection{Berechnung optimaler Bäume}
+\begin{algorithm}
+	\Input{Zshgd.er, ungerichteter Graph $G$\\Kantengewichte $c:E(G) \to \reell_+$}
+	\Output{Aufspannender Baum $T$ minimalen Gewichts}\vspace*{5pt}
+	Sortiere Kanten nach Gewicht\newline $c(e_1)\le c(e_2)\le ... \le c(e_m)$\\
+	Setze $T:=(V(G), \emptyset)$\\
+	\For{i=1 \KwTo m}
+	{
+	\uIf{$T+e_i$ enthält keinen Kreis}{$T:=T+e_i$}
+	}
+	\caption{Krustals Algorithmus}
+	\label{fig:Algorithmus}
+\end{algorithm}
 	
