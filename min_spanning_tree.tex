@@ -95,4 +95,59 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 	\caption{Krustals Algorithmus}
 	\label{fig:Algorithmus}
 \end{algorithm}
+\subsection*{Laufzeit}
+\begin{enumerate}
+	\item Sortieren der Kanten $O(m~log(m)) = \underbrace{O(m~log(n)}_{\text{Da } m \in O(n^2)}$.
+	\item Initialisierung des Baumes $O(1)$.
+	\item Test auf Kreisfreiheit $O(m~log(n))$.
+\end{enumerate}
+\begin{problem}~\\[5pt]
+	\hspace*{10pt}\textbf{Gegeben: } $G'$ kreisfrei ($\le n-1$ Kanten), Kante $e$.\\[5pt]
+	\hspace*{10pt}\textbf{Frage: } Ist $G' + e$ kreisfrei?
+\end{problem}
+DFS oder BFS $\to O(n)$.\\
+$\hookrightarrow$ Teste das $m$-fach $\to O(n\cdot m)$\\
+\textbf{Aber} mit anderer Implementierung geht es besser.
+\begin{satz}
+	Krustals Algorithmus kann so implementiert werden, dass sich eine Laufzeit von $O(m~log(n))$ ergibt.
+\end{satz}
+\begin{proof}
+	Wir löschen parallele Kanten (nur die Billigste bleibt, die Anderen sind redundant). Für 3. Datenstruktur, die die ZhKs von $T$ verwaltet. Test in 3. ob $T+e_i = \set{v,w}$ ergibt Kreis $\Leftrightarrow$ $v,w$ liegen in derselben ZhK (Kante verbindet zwei Knoten in derselben ZhK). Für jede Komponente merken wir uns einen gerichteten Baum mit einer eindeutigen Wurzel, wobei jeder Knoten einen eindeutigen Vorgänger hat. Wenn wir $e_i=\set{v,w}$ in 3. prüfen, finden wir die Wurzel $r_v$ und $r_w$ zu den ZhKs von $B$, die $v$ bzw. $w$ enthalten. Zeit? Proportional zu Länge $r_v$-$v$-Pfad in $B + r_w$-$w$-Pfad in $B$. $\hookrightarrow O(log(n))$ ($=$ Höhe der Bäume) (noch zu zeigen). Teste $r_v = r_w$.
+	\begin{itemize}
+		\item falls ja: überprüfe nächste Kante.
+		\item falls nein: wir fügen $e_i$ zu $T$ hinzu und wir müssen eine Kante zu $B$ hinzufügen.
+	\end{itemize}
+	Sei $h(r)$ die maximale Länge eines Pfades von $r$ in $B$.
+	\begin{itemize}
+		\item falls $h(r_v)\ge h(r_w)$: füge Kante $(r_v, r_w)$ zu B hinzu.
+		\item sonst füge $(r_w, r_v)$ zu $B$ hinzu.
+	\end{itemize}
+	Änderung von $h(r_v)$?
+	\begin{itemize}
+		\item $h(r_v) = h(r_w) \Rightarrow$ erhöht $h(r_v)$ um eins.
+		\item sonst: neue Wurzel hat gleichen $h$-Wert wie vorher.
+	\end{itemize}
+	Behauptung: Ein gerichteter Teilbaum von $B$ mit Wurzel $r$ enthält mindestens $2^{h(r)}$ Knoten. Beweis durch Induktion:\\
+	I:A.: $B=(V(G), \emptyset),~h(r)=0$. Beh. gilt. Zu zeigen: Eigenschaft bleibt erhalten, wenn wir eine Kante $(x,y)$ zu $B$ hinzufügen.
+	\begin{itemize}
+		\item wenn $h(r)$ sich nicht ändert.
+		\item sonst: vorher hatten wir $h(r_x) = h(r_y)$. Beide ZhKs von $B$ hatten mindestens $2^{h(r_x)}$ Knoten $\Rightarrow$ neue ZhK, verwurzelt in $r_x$, hat mind. $2\cdot2^{h(r_x)} = 2^{h(r_x)+1}$ Knoten. 
+	\end{itemize}
+	$\Rightarrow h(r) \le log(n) \Rightarrow \text{log. Höhe} \Rightarrow$ Laufzeit $O(m~log(n))$.
+\end{proof}
+\subsection*{Korrektheit}
+Wir schauen uns zwei Optimalitätsbedingungen an.	
+\begin{satz}
+	Sei $(G,c)$ eine Instanz des Minimum Spanning Tree Problems (MST), sei $T$ ein Spannbaum in $G$. Dann gilt
+	\begin{enumerate}[a)]
+		\item $T$ ist optimal.
+		\item Für jede Kante $e=\set{x,y} \in E(G)\setminus E(T)$ hat keine Kante auf dem $x$-$y$-Pfad in $T$ höhere Kosten als $e$.
+		\item Für jede Kante $e\in E(T)$ ist $e$ eine billigste Kante in $\delta(V(C))$, wobei $C$ eine ZhK von $T-e$ ist.
+	\end{enumerate}
+\end{satz}
+\begin{proof}~\\
+	a)$\Rightarrow$ b): Wir nehmen an b) ist verletzt. Sei $e=\set{x,y} \in E(G)\setminus E(T)$ und $f$ eine Kante aus dem $x$-$y$-Pfad in $T$ mit $c(f) > c(e)$. Dann ist $(T-f)+e$ ein Spannbaum mit niedrigeren Kosten als $T$ $\lightning$ $T$ optimal.\\
+	b)$\Rightarrow$ c): Wir nehmen an c) ist verletzt. Sei $e\in E(T)$, $C$ eine ZhK von $T-e$ und $f=\set{x,y} \in \delta(V(C))$ mit $c(f) < c(e)$. Der $x$-$y$-Pfad in $T$ muss eine Kante in $\delta(V(C))$ enthalten, aber die einzige Kante, die dies erfüllt ist $e$.
+\end{proof}
+	
 	
