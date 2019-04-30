@@ -83,6 +83,7 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 	H.A.
 \end{proof}
 \subsection{Berechnung optimaler Bäume}
+\subsection*{Kruskals Algorithmus}
 \begin{algorithm}
 	\Input{Zshgd.er, ungerichteter Graph $G$\\Kantengewichte $c:E(G) \to \reell_+$}
 	\Output{Aufspannender Baum $T$ minimalen Gewichts}\vspace*{5pt}
@@ -92,10 +93,10 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 	{
 	\uIf{$T+e_i$ enthält keinen Kreis}{$T:=T+e_i$}
 	}
-	\caption{Krustals Algorithmus}
+	\caption{Kruskals Algorithmus}
 	\label{fig:Algorithmus}
 \end{algorithm}
-\subsection*{Laufzeit}
+\subsubsection*{Laufzeit}
 \begin{enumerate}
 	\item Sortieren der Kanten $O(m~log(m)) = \underbrace{O(m~log(n)}_{\text{Da } m \in O(n^2)}$.
 	\item Initialisierung des Baumes $O(1)$.
@@ -109,7 +110,7 @@ DFS oder BFS $\to O(n)$.\\
 $\hookrightarrow$ Teste das $m$-fach $\to O(n\cdot m)$\\
 \textbf{Aber} mit anderer Implementierung geht es besser.
 \begin{satz}
-	Krustals Algorithmus kann so implementiert werden, dass sich eine Laufzeit von $O(m~log(n))$ ergibt.
+	Kruskals Algorithmus kann so implementiert werden, dass sich eine Laufzeit von $O(m~log(n))$ ergibt.
 \end{satz}
 \begin{proof}
 	Wir löschen parallele Kanten (nur die Billigste bleibt, die Anderen sind redundant). Für 3. Datenstruktur, die die ZhKs von $T$ verwaltet. Test in 3. ob $T+e_i = \set{v,w}$ ergibt Kreis $\Leftrightarrow$ $v,w$ liegen in derselben ZhK (Kante verbindet zwei Knoten in derselben ZhK). Für jede Komponente merken wir uns einen gerichteten Baum mit einer eindeutigen Wurzel, wobei jeder Knoten einen eindeutigen Vorgänger hat. Wenn wir $e_i=\set{v,w}$ in 3. prüfen, finden wir die Wurzel $r_v$ und $r_w$ zu den ZhKs von $B$, die $v$ bzw. $w$ enthalten. Zeit? Proportional zu Länge $r_v$-$v$-Pfad in $B + r_w$-$w$-Pfad in $B$. $\hookrightarrow O(log(n))$ ($=$ Höhe der Bäume) (noch zu zeigen). Teste $r_v = r_w$.
@@ -135,7 +136,7 @@ $\hookrightarrow$ Teste das $m$-fach $\to O(n\cdot m)$\\
 	\end{itemize}
 	$\Rightarrow h(r) \le log(n) \Rightarrow \text{log. Höhe} \Rightarrow$ Laufzeit $O(m~log(n))$.
 \end{proof}
-\subsection*{Korrektheit}
+\subsubsection*{Korrektheit}
 Wir schauen uns zwei Optimalitätsbedingungen an.	
 \begin{satz}
 	Sei $(G,c)$ eine Instanz des Minimum Spanning Tree Problems (MST), sei $T$ ein Spannbaum in $G$. Dann gilt
@@ -147,7 +148,50 @@ Wir schauen uns zwei Optimalitätsbedingungen an.
 \end{satz}
 \begin{proof}~\\
 	a)$\Rightarrow$ b): Wir nehmen an b) ist verletzt. Sei $e=\set{x,y} \in E(G)\setminus E(T)$ und $f$ eine Kante aus dem $x$-$y$-Pfad in $T$ mit $c(f) > c(e)$. Dann ist $(T-f)+e$ ein Spannbaum mit niedrigeren Kosten als $T$ $\lightning$ $T$ optimal.\\
-	b)$\Rightarrow$ c): Wir nehmen an c) ist verletzt. Sei $e\in E(T)$, $C$ eine ZhK von $T-e$ und $f=\set{x,y} \in \delta(V(C))$ mit $c(f) < c(e)$. Der $x$-$y$-Pfad in $T$ muss eine Kante in $\delta(V(C))$ enthalten, aber die einzige Kante, die dies erfüllt ist $e$.
+	b)$\Rightarrow$ c): Wir nehmen an c) ist verletzt. Sei $e\in E(T)$, $C$ eine ZhK von $T-e$ und $f=\set{x,y} \in \delta(V(C))$ mit $c(f) < c(e)$. Der $x$-$y$-Pfad in $T$ muss eine Kante in $\delta(V(C))$ enthalten, aber die einzige Kante, die dies erfüllt ist $e$.\\
+	c) $\Rightarrow$ a): Sei $T$ ein Baum, der c) erfüllt. Sei $T^*$ ein optimaler MST mit $E(T^*)\cap E(T)$ maximal. Wir zeigen $T=T^*$. Angenommen, es gibt eine Kante $e=\set{x,y} \in E(T)\setminus E(T^*)$. Sei $C$ eine ZhK von $T-e$. $T^*+e$ enthält einen Kreis $D$. Da $e\in E(D)\cap \delta(V(C))$ muss mindestens noch eine weitere Kante $f (\neq e)$ aus $D$ zu $\delta(V(C))$ gehören. $(T^*+e)-f$ ist ein Spannbaum. $T^*$ optimal $\Rightarrow c(e)\ge c(f)$. c) gilt für $T \Rightarrow c(f)\ge c(e)\Rightarrow c(f) = c(e)$. $\Rightarrow (T^*+e)-f$ ist ein anderer optimaler MST $\lightning$ (Widerspruch $E(T^*)\cap E(T)$ maximal (hat eine Kante mehr gemeinsam mit $T$)).
 \end{proof}
+\begin{satz}
+	Kruskals Algorithmus ist korrekt.
+\end{satz}
+\begin{proof}
+	Der Algorithmus konstruiert einen Spannbaum (einen maximalen kreisfreien Teilgraphen $\overset{Satz~2.2~f)}{\Rightarrow}$ Spannbaum). Zudem wird Bedingung b) aus Satz 2.4 erfüllt $\Rightarrow T$ ist optimal.
+\end{proof}
+Kruskal nutzt Optimalitätskriterium 2.4 b) - können wir auch c) nutzen?\\
+\hspace*{10pt}$\hookrightarrow$ Ja! $\to$ Prims Algorithmus
+\subsection*{Prims Algorithmus}
+\begin{algorithm}
+	\Input{Zshgd.er, ungerichteter Graph $G$\\Kantengewichte $c:E(G) \to \reell$}
+	\Output{Spannbaum $T$ minimalen Gewichts}\vspace*{5pt}
+	Wähle $v\in V(G)$\\
+	Setze $T:=(\set{v}, \emptyset)$\\
+	\While{$V(T) \neq V(G)$}
+	{
+		Wähle eine Kante $e\in \delta_G(V(T))$ mit minimalen Gewicht\\
+		Setze $T=T+e$
+	}
+	\caption{Prims Algorithmus}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\begin{satz}
+	Prims Algorithmus ist korrekt. Die Laufzeit ist $O(n^2)$.
+\end{satz}
+\begin{proof}
 	
+\end{proof}
+
+\begin{rem}~
+	\begin{enumerate}
+		\item Laufzeit $O(n^2)$ ist bestmöglich für dichte Graphen ($m\in \Omega(n^2)$) da wir jede Kante ansehen müssen
+		\item mit Fibonacci heaps kann $O(m+n~log(n))$ erreicht werden [für $m\in O(n)$ noch nicht besser]
+		\item bester det. Algorithmus von Chazelle (2000) $O(m\cdot \underbrace{\alpha(m,n)}_{\mathclap{\text{inverse Ackermannfunktion}}})$
+		\item Es existiert noch kein det. Algorithmus mit Laufzeit $O(m)$
+		\item Bekannt:
+		\begin{itemize}
+			\item Randomisierte Algorithmen mit erwarteter Laufzeit $O(m)$
+			\item Planare Graphen in $O(m)$
+			\item $n$ Punkte in der Ebene $O(n~log(n))$
+		\end{itemize}
+	\end{enumerate}
+\end{rem}
 	
