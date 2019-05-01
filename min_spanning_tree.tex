@@ -177,9 +177,14 @@ Kruskal nutzt Optimalitätskriterium 2.4 b) - können wir auch c) nutzen?\\
 	Prims Algorithmus ist korrekt. Die Laufzeit ist $O(n^2)$.
 \end{satz}
 \begin{proof}
-	
+	Korrektheit: folgt, da Bedingung c) aus 2.4 erfüllt ist. Laufzeit: Nicht in 3. je alle Kanten druchsehen $\to O(n^2)$. Sondern: für jeden knoten $v\in V(T)$ merken wir uns die billigste Kante (\dq Kandidatenkante\dq) $e\in E(V(T), \set{v})$.
+	\begin{itemize}
+		\item Initialisierung der Kandidatenkanten $O(m)$
+		\item Auswahl der billigsten Kante unter den Kandidaten $O(n)$
+		\item Update der Kandidaten: überprüfe alle Kanten die zum zu $V(T)$ neu hinzugefügten Knoten inzident sind $\to O(n)$
+	\end{itemize}
+	WHILE-Schleife in 3. hat $n-1$ Iterationen $\Rightarrow O(n^2)$.
 \end{proof}
-
 \begin{rem}~
 	\begin{enumerate}
 		\item Laufzeit $O(n^2)$ ist bestmöglich für dichte Graphen ($m\in \Omega(n^2)$) da wir jede Kante ansehen müssen

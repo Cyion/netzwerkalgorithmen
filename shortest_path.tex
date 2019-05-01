@@ -1,0 +1,18 @@
+\section{Kürzeste Wege}
+\begin{problem}~\\[5pt]
+	\hspace*{10pt}\textbf{Gegeben: }Gerichteter Graph $G$, Gewichte $c:A(G)\to \reell$, zwei ausgezeichnete \hspace*{60pt} Knoten $s,~t$.\\[5pt]
+	\hspace*{10pt}\textbf{Gesucht: }$s$-$t$-Pfad minimalen Gesamtgewichts.
+\end{problem}
+Verschiedene Schwierigkeitsstufen
+\begin{itemize}
+	\item alle Kanten Einheitslänge $c(a)=1~ \forall a\in A(G)$.\\
+	$\hookrightarrow$ (BFS) Suche nach Pfad mit minimaler Anzahl an Kanten.
+	\item nicht negative Kantenlängen.\\
+	$\hookrightarrow$ Dijkstra.
+	\item ohne Kreise negativen Gesamtgewichts.
+	\item allgemeine Kantengewichte.
+\end{itemize}
+\begin{definition*}[Konservativ]
+	Sei $G$ ein Graph mit Gewichten $c:E(G)\to \reell$. Diese Kantengewichtsfunktion heißt konservativ wenn sie keine Kreise negativen Gesamtgewichts enthält.
+\end{definition*}
+\subsection{Kürzeste Wege von einer Quelle}
