@@ -13,6 +13,58 @@ Verschiedene Schwierigkeitsstufen
 	\item allgemeine Kantengewichte.
 \end{itemize}
 \begin{definition*}[Konservativ]
-	Sei $G$ ein Graph mit Gewichten $c:E(G)\to \reell$. Diese Kantengewichtsfunktion heißt konservativ wenn sie keine Kreise negativen Gesamtgewichts enthält.
+	Sei $G$ ein Graph mit Gewichten $c:E(G)\to \reell$. Diese Kantengewichtsfunktion heißt \textbf{konservativ} wenn sie keine Kreise negativen Gesamtgewichts enthält.
 \end{definition*}
 \subsection{Kürzeste Wege von einer Quelle}
+Algorithmen beruhen auf einer Beobachtung \dq Bellmans Prinzip\dq.
+\begin{lemma}
+	Sei $G$ ein Digraph mit konservativen Kantengewichten $c:A(G)\to \reell$, seinen $s$ und $w$ zwei Knoten. Ist $e=(v,w)$ die letzte Kante eines kürzesten Pfades $P$ von $s$ nach $w$, dann ist $P_{[s,v]}$ ($P$ ohne die Kante $e$) ein kürzester Pfad von $s$ nach $v$.
+\end{lemma}
+\begin{proof}
+	Angenommen $Q$ ist ein kürzerer $s$-$v$-Pfad als $P_{[s,v]} \Rightarrow c(Q) + c(e) < c(P)$.
+	\begin{itemize}
+		\item Falls $Q$ $w$ nicht enthält $\Rightarrow Q + e$ ist kürzerer $s$-$w$-Pfad als $P$.
+		\item Sonst gilt für $Q_{[s,w]}$:\\ $c(Q_{[s,w]}) = c(Q) + c(e) - c(Q_{[w,v]} + e) < c(P) - \underbrace{c(Q_{[w,v]} + e)}_{\mathclap{\text{ist ein Kreis und $c$ ist konservativ}}}) \le c(P)$\\ $\lightning$ $P$ ist kürzester $s$-$w$-Pfad.
+	\end{itemize}
+\end{proof}
+Folgerungen:
+\begin{itemize}
+	\item Algorithmen bauen Wege schrittweise auf.
+	\item Grund, dass meiste Algorithmen den kürzesten Weg von $s$ zu allen Knoten berechnen: Kürzesten $s$-$t$-Pfad berechnet $\Rightarrow$ auch kürzesten $s$-$v$-Pfad $\forall v\in P$ + wir wissen vorher nicht welche Knoten zu $P$ gehören.
+\end{itemize}
+Wir betrachten zunächst nicht-negative Kantengewichte. Sind diese auch ganzzahlig könnten wir auch BFS nutzen, indem wir Knoten durch Einheitskanten ersetzen.\\
+Nachteil: Bläst Eingabe um exponentiellen Faktor auf. Statt
+\begin{eqnarray*}
+	&&\Theta(\underbrace{n~log(m)}_{\mathclap{\text{inzidente Kanten}}} + \underbrace{m~log(n)}_{Kanten} + \sum_{\mathclap{e \in E(G)}} log(c(e))) \text{ bekommen wir}\\
+	&&\Theta(n'~log(m') + m'~log(n')) \text{ mit } m' = \sum_{\mathclap{e \in E(G)}} c(e),~n' = n + \sum_{\mathclap{e \in E(G)}} c(e) - 1
+\end{eqnarray*}
+Besser: Dijkstra.
+\begin{definition}
+	Sei $G$ ein Digraph mit $s, v \in V(G)$. Wir definieren
+	\begin{itemize}
+		\item $L(v) :=$ Länge eines kürzesten $s$-$v$-Pfades
+		\item $p(v) :=$ Vorgänger von $v$ in einem kürzesten $s$-$v$-Pfad
+	\end{itemize}
+	($v$ nicht erreichbar: $L(v) = \infty,~p(v) = \text{NIL}$).
+\end{definition}
+\begin{algorithm}
+	\Input{Digraph $G$, Gewichte $c:A(G)\to \reell_+$, Knoten $s\in V(G)$}
+	\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge}\vspace*{5pt}
+	Setze $L(s) = 0$\\
+	\hspace*{25pt}$L(v) = \infty~\forall v \in V(G)\setminus \set{s}$\\
+	\hspace*{25pt}$R = \emptyset$\\
+	Finde einen Knoten $v\in V(G)\setminus R$ mit $L(v) = \underset{\mathclap{w\in V(G)\setminus R}}{min}~L(w)$\\
+	Setze $R = R \cup \set{v}$\\
+	\For{$\forall w \in V(G)\setminus R$ mit $(v,w) \in A(G)$}{
+		\If{$L(w)>L(v) + c((v,w))$}{
+			Setze $L(w) = L(v) + c((v,w))$\\
+			$p(w) = v$
+		}
+	}
+	\If{$R\neq V(G)$}{\textbf{goto} 4}
+	\caption{Dijkstras Algorithmus}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\begin{satz}
+	Dijkstras Algorithmus ist korrekt. Die Laufzeit ist $O(n^2)$.
+\end{satz}
