@@ -5,4 +5,8 @@ Lecture http://web.ibr.cs.tu-bs.de/courses/ss19/na/.
 **Topics**  
 - Graphs  
 - Minimum spanning trees  
+	- Kruskal  
+	- Prim  
 - Shortest Paths  
+	- Dijkstra  
+	- Moore-Bellman-Ford  

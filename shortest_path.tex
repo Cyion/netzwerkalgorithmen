@@ -49,7 +49,7 @@ Besser: Dijkstra.
 \end{definition}
 \begin{algorithm}
 	\Input{Digraph $G$, Gewichte $c:A(G)\to \reell_+$, Knoten $s\in V(G)$}
-	\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge}\vspace*{5pt}
+	\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge, genauer $L(v),~p(v)$}\vspace*{5pt}
 	Setze $L(s) = 0$\\
 	\hspace*{25pt}$L(v) = \infty~\forall v \in V(G)\setminus \set{s}$\\
 	\hspace*{25pt}$R = \emptyset$\\
@@ -68,3 +68,60 @@ Besser: Dijkstra.
 \begin{satz}
 	Dijkstras Algorithmus ist korrekt. Die Laufzeit ist $O(n^2)$.
 \end{satz}
+\begin{proof}
+	Wir zeigen, dass die folgenden Aussagen nach jeder Ausführung von 4. gelten
+	\begin{enumerate}[a)]
+		\item $\forall v\in R$ und $w\in V(G)\setminus R: L(v) \le L(w)$.
+		\item $\forall v\in R: L(v)$ ist die Länge eines kürzesten $s$-$v$-Pfades in $G$. Wenn $L(v) < \infty$, dann existiert ein $s$-$v$-Pfad der Länge $L(v)$, dessen letzte Kante $(p(v), v)$ ist und dessen Knoten alle zu $R$ gehören.
+		\item $\forall w\in V(G)\setminus R: L(w)$ ist die Länge eines kürzesten $s$-$w$-Pfades in $G[R\cup \set{w}]$. Wenn $L(w) \neq \infty$, dann $p(w)\in R$ und $L(w) = L(p(w)) + c((p(w),w))$.
+	\end{enumerate}
+	Die Aussagen gelten nach 1-3. Wir müssen zeigen, dass 5 und 6 die Gültigkeit von a), b) und c) aufrecht erhalten. Sei $v$ ein in 4 ausgewählter Knoten.\\
+	zu a): Für jedes $x \in R,~y\in V(G)\setminus R$ gilt nach a) und der Wahl von $v$ in 4: $L(x) \le L(v) \le L(y) \Rightarrow$ a) gilt weiter nach 5 und 6.\\
+	zu b): Zu zeigen: b) gilt nach 5 (dazu reicht: betrachte Knoten $v$). c) galt vor 5 $\to$ reicht zu zeigen, dass kein $s$-$v$-Pfad in $G$, der irgendein Knoten in $V(G)\setminus R$ enthält, kürzer ist als $L(v)$. Wir nehmen an es gebe einen $s$-$v$-Pfad $P$ in $G$, der einen knoten $w \in V(G)\setminus R$ enthält, der kürzer als $L(v)$ ist. Sei $w$ der erste Knoten außerhalb von $R$, wenn wir $P$ von $s$ nach $v$ durchlaufen. c) galt vor 5 $\Rightarrow L(w) \le c(P_{[s,w]})$. Kantengewichte nicht-negativ $\Rightarrow c(P_{[s,w]}) \le c(P) < L(v) \Rightarrow L(w) < L(v)~ \lightning$ Wahl von $v$ in 4.\\
+	zu c): Wir zeigen, dass 5 und 6 c) aufrecht erhalten $\to$ wenn für $w$ (wir setzen $p(w) = v$ und $L(w) = L(v) + c((v,w))$) in 6 $\to$ existiert ein $s$-$v$-Pfad in $G[R \cup \set{w}]$ der Länge $L(v) + c((v,w))$ mit letzter Kante $(v,w)$ + wir wissen c) galt für $v$. Wir nehmen an, dass nach 5 und 6 ein $s$-$v$-Pfad $P$ in $G[R \cup \set{w}]$ existiert, der kürzer als $L(w)$ für ein $w\in V(G)\setminus R$ ist. $P$ muss $v$ enthalten - nur $w$ wurde hinzugefügt und sonst wäre c) schon vor 5 und 6 verletzt gewesen (wir wissen $L(w)$ wächst nicht). Sei $x$ der Nachbar von $w$ in $P$: $x \in R \overset{a)}{\Rightarrow} L(x) \le L(v) \overset{6}{\Rightarrow} L(w) \le L(x) + c((x,w)) \Rightarrow L(w) \le L(x) + c((x,w)) \le L(v) + c((x,w)) \le c(P) ~\lightning$ b) $\to$ $L(v)$ ist Länge eines kürzesten $s$-$v$-Pfades und $P$ enthält
+	\begin{itemize}
+		\item einen $s$-$v$-Pfad
+		\item Kante $(x,w)$
+	\end{itemize}
+	Wir haben gezeigt:
+	\begin{itemize}
+		\item a), b) und c) gelten je in 4
+		\item b) gilt insbesondere, wenn der Algorithmus terminiert\\
+		$\hookrightarrow$ Ausgabe korrekt.
+	\end{itemize}
+	Laufzeit:
+	\begin{itemize}
+		\item $n$ Iterationen
+		\item je $O(n)$
+		\item[$\to$] $O(n^2)$
+	\end{itemize}
+\end{proof}
+\begin{rem}
+	\begin{itemize}
+		\item $O(n^2)$ wieder bestmöglich für dichte Graphen.
+		\item für \dq dünne\dq Graphen: Friedman und Tarjan (1987) haben mittels Fibonacci heaps die Laufzeit auf $O(n~log(n) + m)$ verbessert. Beste Laufzeit für nicht-negative Gewichte.
+	\end{itemize}
+\end{rem}
+Jetzt: konservative Gewichte.
+\begin{algorithm}
+	\Input{Digraph $G$, konservative Gewichte $c:A(G)\to \reell$, Knoten $s\in V(G)$}
+	\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge}\vspace*{5pt}
+	Setze $L(s) = 0$\\
+	\hspace*{25pt}$L(v) = \infty~\forall v \in V(G)\setminus \set{s}$\\
+	\For{$i=1$ \textbf{to} $n-1$}{
+		\For{jede Kante $(v,w)\in A(G)$}{
+			\If{$L(w)>L(v) + c((v,w))$}{
+				Setze $L(w) = L(v) + c((v,w))$\\
+				$p(w) = v$
+			}
+		}
+	}
+	\caption{Moore-Bellman-Ford Algorithmus}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\begin{satz}
+	Der Moore-Bellman-Ford Algorithmus ist korrekt und hat eine Laufzeit von $O(m\cdot n)$.
+\end{satz}
+\begin{proof}
+	
+\end{proof}
