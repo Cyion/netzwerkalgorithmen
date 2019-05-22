@@ -123,5 +123,18 @@ Jetzt: konservative Gewichte.
 	Der Moore-Bellman-Ford Algorithmus ist korrekt und hat eine Laufzeit von $O(m\cdot n)$.
 \end{satz}
 \begin{proof}
-	
+	Sei zu beliebigen Zeitpunkt $R := \set{v\in V(G) ~\vert~ L(v) < \infty}$, $F := \set{(x,y)\in A(G)~\vert~x=p(y)}$. Wir behaupten:
+	\begin{enumerate}[a)]
+		\item $L(y) \ge L(x) + c((x,y)) ~\forall (x,y)\in F$.
+		\item Wenn $F$ einen Kreis $C$ enthält hat dieser negatives Gesamtgewicht.
+		\item Wenn $C$ konservativ ist, ist $(R,F)$ eine in $s$ verwurzelte Arboreszenz.
+	\end{enumerate}
+	zu a): $L(y) = L(x) + c((x,y))$ wenn $p(y) = x$ gesetzt wurde und $L(x)$ wird nie erhöht.\\
+	zu b): Wir nehmen an, es wird ein Kreis $C$ in $F$ erzeugt indem wir $p(y) = x$ setzen $\to$ vor Einfügen: $L(y) > L(x) + c((x,y)) \Rightarrow L(y) - L(x) > c((x,y))$ und wegen a) $L(w) \ge L(v) + c((v,w))~\forall (v,w) \in A(G)\setminus \set{(x,y)} \Rightarrow L(w) - L(v) \ge c((v,w))$. Aufsummieren $\to$ Gesamtgewicht von $C$ negativ $c((x,y)) + c((y, v_1)) + ... + c((v_l,x)) < L(y) - L(x) + L(v_1) - L(y) + ... + L(x) - L(v_l) = 0$. $C$ konservativ $\overset{b)}{\Rightarrow}$ $F$ azyklisch. $x\in R\setminus \set{s} \Rightarrow p(x) \in R \Rightarrow (R,F)$ Arboreszenz die in $s$ verwurzelt [c)].\\
+	$L(x)$ ist die länge des $s$-$x$-Pfades in $(R,F)$ für jeden $x\in R$ (zu bel. Zeitpunkt im Algorithmus). Wir behaupten nach $k$ Iterationen, $L(x)$ ist höchstens so lang wie ein kürzester $s$-$x$-Pfad mit $k$ Kanten. Beweis durch Induktion:\\
+	Sei $P$ ein kürzester $s$-$x$-Pfad mit höchstens $k$ Kanten und sei $(w,x)$ die letzte Kante von $P$ $\Rightarrow$ $P_{[s,w]}$ ist kürzester $s$-$w$-Pfad mit höchstens $k-1$ Kanten $\overset{I.V.}{\Rightarrow} L(w) \le c(P_{[s,w]})$ nach $k-1$ Iterationen. In $k$-ter Iteration wird auch Kante $(w,x)$ betrachtet, danach $L(x) \le L(w) + c((w,x)) \le c(P)$. Da kein Weg mehr als $n-1$ Kanten hat folgt aus der Behauptung die Korrektheit vom Algorithmus.\\
+	Laufzeit: offensichtlich.
 \end{proof}
+\begin{rem}
+	Dieser Algorithmus ist der Schnellste für konservative Gewichte.
+\end{rem}

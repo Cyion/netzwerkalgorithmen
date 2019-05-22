@@ -1,0 +1,46 @@
+\section{Netzwerkflüsse}
+Flüsse in Graphen. Beispiele:
+\begin{itemize}
+	\item Wasser in Leitungssystemen
+	\item Verkehr in Straßensystemen
+	\item Passagiere in Transportsystemen
+\end{itemize}
+Eigenschaften:
+\begin{itemize}
+	\item pro Kante 2 Kenngrößen
+	\begin{itemize}
+		\item mögliche Flusskapazität
+		\item tatsächlicher Fluss
+	\end{itemize}
+	\item \dq Flusserhaltung\dq : Bilanzierung der Flüsse an jedem Knoten (\dq fliest nicht mehr raus, als rein\dq)
+\end{itemize}
+\begin{definition}
+	Gegeben: Digraph $G$ mit Kapazität $u: A(G) \to \reell_+$.
+	\begin{enumerate}
+		\item Ein \textbf{Fluss} ist eine Funktion $f: A(G) \to \reell_+$ mit $f(e) \le u(e)~\forall e\in A(G)$.
+		\item An einem Knoten $v$ gilt \textbf{Flusserhaltung}, wenn \[\sum_{e\in \delta^-(v)} f(e) = \sum_{e\in \delta^+(v)} f(e).\]
+		\item Eine \textbf{Zirkulation} ist ein Fluss für den an jedem Knoten Flusserhaltung gilt.
+		\item Für ein Netzwerk $(G, u, s, t)$ ist ein Fluss ein $s$-$t$-Fluss, wenn Flusserhaltung an allen Knoten außer $s$ und $t$ gilt \[Wert(f) :=\sum_{e\in \delta^+(s)} f(e) - \sum_{e\in \delta^-(s)} f(e).\]
+	\end{enumerate}
+\end{definition}
+\begin{problem}[Maximaler Fluss]~\\[5pt]
+\hspace*{10pt}\textbf{Gegeben: }Netzwerk $(G, u, s, t)$.\\[5pt]
+\hspace*{10pt}\textbf{Gesucht: }Ein $s$-$t$-Fluss mit maximalem Wert.
+\end{problem}
+Formulierung als LP (Lineares Programm):
+\begin{eqnarray*}
+	max~ F \text{ sodass} &&\sum_{e\in \delta^+(s)} f_e - \sum_{e\in \delta^-(s)} f_e = F,\\
+	&&\sum_{e\in \delta^-(v)} f_e - \sum_{e\in \delta^+(v)} f_e = 0~\forall v\in V(G)\setminus \set{s,t},\\
+	&&0\le f_e \le u_e~\forall e\in A(G).
+\end{eqnarray*}
+Also: Können wir effizient lösen (LP $\in$ P).\vspace*{5pt}\\
+Ziel hier: \dq kombinatorische\dq Algorithmen.
+\begin{beobachtung}
+	Das Max Flow Problem hat immer eine optimale Lösung.
+\end{beobachtung}
+\begin{proof}~
+	\begin{enumerate}
+		\item LP ist beschränkt.
+		\item Fluss mit $f\equiv 0$ ist immer zulässig.
+	\end{enumerate}
+\end{proof}

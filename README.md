@@ -7,6 +7,7 @@ Lecture http://web.ibr.cs.tu-bs.de/courses/ss19/na/.
 - Minimum spanning trees  
 	- Kruskal  
 	- Prim  
-- Shortest Paths  
+- Shortest paths  
 	- Dijkstra  
 	- Moore-Bellman-Ford  
+- Flow networks
