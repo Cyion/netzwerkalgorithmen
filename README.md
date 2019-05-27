@@ -11,3 +11,4 @@ Lecture http://web.ibr.cs.tu-bs.de/courses/ss19/na/.
 	- Dijkstra  
 	- Moore-Bellman-Ford  
 - Flow networks
+	- Ford-Fulkerson

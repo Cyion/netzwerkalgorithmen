@@ -44,3 +44,62 @@ Ziel hier: \dq kombinatorische\dq Algorithmen.
 		\item Fluss mit $f\equiv 0$ ist immer zulässig.
 	\end{enumerate}
 \end{proof}
+\begin{definition}
+	In einem Digraph $G$ heißt eine Kantenmenge $\delta^+(X)$ mit $s\in X$ und $t\notin X$ ein \textbf{$s$-$t$-Schnitt}.
+	Wert des Schnittes := Summe der Kantenkapazitäten der ausgehenden Kanten.
+\end{definition}
+\begin{lemma}[Schranken durch Schnitte]
+	Für bel. $A\subseteq V(G)$ mit $s\in A$, $t\notin A$ und jedem $s$-$t$-Fluss $f$ gilt
+	\begin{enumerate}[a)]
+		\item $Wert(f) = \sum_{e\in \delta^-(A)} f(e) - \sum_{e\in \delta^+(A)} f(e)$
+		\item $Wert(f) \le \sum_{e\in \delta^+(A)} f(e)$
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	zu a): Flusserhaltung gilt für $v\in A\setminus \set{s}\\ \Rightarrow Wert(f) = \sum_{e\in \delta^+(s)} f(e) - \sum_{e\in \delta^-(s)} f(e) = \sum_{v\in A}(\sum_{e\in \delta^+(v)} f(e) - \sum_{e\in \delta^-(v)} f(e)) = \sum_{e\in \delta^+(A)} f(e) - \sum_{e\in \delta^-(A)} f(e)$.\\
+	zu b): Folgt mit a), wenn wir $0 \le f(e) \le u(e)~\forall e\in A(G)$ nutzen.
+\end{proof}
+Was sagt Lemma 4.1:\\[5pt]
+Der Wert eines Max Flow kann die Kapazität eines minimalen $s$-$t$-Schnitts nicht überschreiben - tatsächlich gilt Gleichheit, zeigen wir später.\\[5pt]
+Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation: Fluss verringern $\widehat{=}$ Fluss umleiten.
+\begin{definition}~
+	\begin{enumerate}[1)]
+		\item Für ein Digraph $G$ ist $\overset{\leftrightarrow}{G} := (V(G), A(G) \dot\cup \set{\overset{\leftarrow}{e} \vert e \in A(G)})$ mit $\overset{\leftarrow}{e} = (w,v)$ für $e=(v,w)$ \dq Rückwärtskante\dq von $e$ der doppelt gewichtete Graph für $G$.
+		\item Für einen Fluss $f$ in einem Digraph $G$ mit Kapazität $z:A(G)\to \reell_+$ definieren wir die \textbf{Residualkapazitäten} $u_f$ \[ u_f(e = \begin{cases} u(e) - f(e) &\text{für Vorwärtskante,}\\ f(e) &\text{für Rückwärtskante.} \end{cases} \]
+		\item Der \textbf{Residualgraph} $G_t$ ist der Graph $(V(G), \set{e\in A(\overset{\leftrightarrow}{G})~\vert~ u_f(e) > 0})$.
+		\item Interpretation des Residualgraphen:
+		\begin{itemize}
+			\item $u_f$ auf Vorwärtskante: um wie viel wir $f$ noch erhöhen können.
+			\item $u_f$ auf Rückwärtskante: um wie viel wir $f$ noch verringern können.
+		\end{itemize}
+	\item Gegeben ein Fluss $f$ und ein Pfad (oder Kreis) $P$ in $G_f$. Um $f$ entlang $P$ um $\gamma$ zu augmentieren muss man
+	\begin{itemize}
+		\item den Fluss für jede Vorwärtskante um $\gamma$ erhöhen ($e\in A(P)$: wenn $e \in A(G)$, erhöhe $f(e)$ um $\gamma$)
+		\item den Fluss für jede Rückwärtskante um $\gamma$ reduzieren ($e \in A(P)$: wenn $e = \overset{\leftarrow}{e_0}$ für $e_0 \in A(G)$, reduziere $f(e_0)$ um $\gamma$)
+	\end{itemize}
+	\item Ein \textbf{$f$-augmentierender} Pfad in einem Netzwerk $(G, u, s, t)$ mit einem Fluss $f$ ist ein $s$-$t$-Pfad im Residualgraph $G_f$.
+	\end{enumerate}
+\end{definition}
+\begin{algorithm}
+	\Input{Netzwerk $(G, u, s, t)$}
+	\Output{Ein $s$-$t$-Fluss $f$ mit maximalem Wert}\vspace*{5pt}
+	Setze $f(e)=0~\forall e\in A(G)$\\
+	Finde einen $f$-augmentierenden Pfad $P$\\
+	\hspace*{15pt}Falls keiner existiert: \textbf{stop} \\
+	Berechne $\gamma := \underset{e\in P}{min}~ u_f(e)$\\
+	\hspace*{15pt}Augmentiere $f$ entlang $P$ um $\gamma$ und \textbf{goto} 2
+	\caption{Ford-Fulkerson Algorithmus}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\begin{satz}
+	Ein $s$-$t$-Fluss ist optimal $\Leftrightarrow$ Es gibt keinen $f$-augmentierenden Pfad.
+\end{satz}
+Also: stoppt der Algorithmus, dann ist $f$ tatsächlich ein optimaler Fluss.
+\begin{proof}~\\
+	$\Rightarrow$: Wenn es einen $f$-augmentierenden Pfad gibt $\to$ 4 berechnet Fluss mit größerem Wert $\Rightarrow$ $f$ war nicht maximal.\\
+	$\Leftarrow$: Wenn es keinen augmentierenden Pfad gibt $\to$ $t$ ist in $G_f$ von $s$ nicht erreichbar. $R:= \set{\text{Knoten in } G_f \text{ , die von } s \text{ erreichbar sind}}$, Definition von $G_f$:\\ $f(e) = \begin{cases}
+		u(e) & \forall e \in \delta_G^+(R),\\
+		0 & \forall e \in \delta_G^-(R).
+	\end{cases}$
+	$\overset{\text{Lemma 4.1 a)}}{\Rightarrow} Wert(f) = \sum_{e \in \delta^+(R)} u(e) \overset{\text{Lemma 4.1 b)}}{\Rightarrow} f$ ist optimal.
+\end{proof}
