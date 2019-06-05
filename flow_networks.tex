@@ -65,7 +65,7 @@ Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation:
 \begin{definition}~
 	\begin{enumerate}[1)]
 		\item Für ein Digraph $G$ ist $\overset{\leftrightarrow}{G} := (V(G), A(G) \dot\cup \set{\overset{\leftarrow}{e} \vert e \in A(G)})$ mit $\overset{\leftarrow}{e} = (w,v)$ für $e=(v,w)$ \dq Rückwärtskante\dq von $e$ der doppelt gewichtete Graph für $G$.
-		\item Für einen Fluss $f$ in einem Digraph $G$ mit Kapazität $z:A(G)\to \reell_+$ definieren wir die \textbf{Residualkapazitäten} $u_f$ \[ u_f(e = \begin{cases} u(e) - f(e) &\text{für Vorwärtskante,}\\ f(e) &\text{für Rückwärtskante.} \end{cases} \]
+		\item Für einen Fluss $f$ in einem Digraph $G$ mit Kapazität $z:A(G)\to \reell_+$ definieren wir die \textbf{Residualkapazitäten} $u_f$ \[ u_f(e) = \begin{cases} u(e) - f(e) &\text{für Vorwärtskante,}\\ f(e) &\text{für Rückwärtskante.} \end{cases} \]
 		\item Der \textbf{Residualgraph} $G_t$ ist der Graph $(V(G), \set{e\in A(\overset{\leftrightarrow}{G})~\vert~ u_f(e) > 0})$.
 		\item Interpretation des Residualgraphen:
 		\begin{itemize}

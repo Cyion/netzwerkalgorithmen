@@ -6,7 +6,7 @@
 		e &\mapsto& c_e
 	\end{eqnarray*}
 	\hspace*{10pt}\textbf{Gesucht: } Eine Kantenmenge $F\subseteq E$ mit möglichst geringen Gesamtgewicht $\sum_{e \in F} c_e$, \hspace*{60pt}so dass in $T = (V, F)$ alle Knoten verbunden sind ODER entscheide, dass \hspace*{56pt} $G$ nicht zshgd. ist.
-\end{problem}\vspace*{10pt}
+\end{problem}\vspace*{5pt}
 \begin{enumerate}
 	\item Welche Eigenschaften haben Lösungen?\\
 	$\hookrightarrow$Struktur
@@ -72,8 +72,8 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 	Wir zeigen a) $\Rightarrow$ g) $\Rightarrow$ e) $\Rightarrow$ d) $\Rightarrow$ f) $\Rightarrow$ b) $\Rightarrow$ c) $\Rightarrow$ a) (Ringschluss).\\
 	a) $\Rightarrow$ g): Weil $T$ zusammenhängend ist, muss es je einen Pfad zwischen zwei Knoten geben. Gebe es zwischen zwei Knoten mehr als einen Pfad, so enthielte die Vereinigung der Pfade einen Kreis $\lightning$ Kreisfreiheit.\\
 	g) $\Rightarrow$ e) $\Rightarrow$ d): Folgt aus Lemma 2.1. a).\\
-	d) $\Rightarrow$ f): Da alle Knoten bereits verbunden sind, liefert jede eingefügte Kante einen Kreis.
-	f) $\Rightarrow$ b) $\Rightarrow$ c): Ist klar, wenn man Lemma 2.2 zeigt.
+	d) $\Rightarrow$ f): Da alle Knoten bereits verbunden sind, liefert jede eingefügte Kante einen Kreis.\\
+	f) $\Rightarrow$ b) $\Rightarrow$ c): Ist klar, wenn man Lemma 2.2 zeigt.\\
 	c) $\Rightarrow$ a): Sei $T$ zusammenhängend mit $n-1$ Kanten. Solange Kreise in $T$ existieren löschen wir eine der Kanten des Kreises und entfernen somit den Kreis. Angenommen wir haben $k$ Kanten entfernt. Der entstehende Graph $T'$ ist immer noch zusammenhängend und kreisfrei. Wir haben $p=1$ Komponenten und $m=(n-1)-k$ Kanten $\overset{Lemma~2.2}{\Rightarrow} n =m+p=n-1-k+1 \Rightarrow k=0$. 
 \end{proof}
 \begin{lemma}
@@ -98,7 +98,7 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 \end{algorithm}
 \subsubsection*{Laufzeit}
 \begin{enumerate}
-	\item Sortieren der Kanten $O(m~log(m)) = \underbrace{O(m~log(n)}_{\text{Da } m \in O(n^2)}$.
+	\item Sortieren der Kanten $O(m~log(m)) = \underbrace{O(m~log(n)}_{\text{Da } m \in O(n^2)}$.\vspace*{-13pt}
 	\item Initialisierung des Baumes $O(1)$.
 	\item Test auf Kreisfreiheit $O(m~log(n))$.
 \end{enumerate}
