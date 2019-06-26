@@ -3,7 +3,7 @@
 	\hspace*{10pt}\textbf{Gegeben: }Gerichteter Graph $G$, Gewichte $c:A(G)\to \reell$, zwei ausgezeichnete \hspace*{60pt} Knoten $s,~t$.\\[5pt]
 	\hspace*{10pt}\textbf{Gesucht: }$s$-$t$-Pfad minimalen Gesamtgewichts.
 \end{problem}
-Verschiedene Schwierigkeitsstufen
+\textit{Verschiedene Schwierigkeitsstufen
 \begin{itemize}
 	\item alle Kanten Einheitslänge $c(a)=1~ \forall a\in A(G)$.\\
 	$\hookrightarrow$ (BFS) Suche nach Pfad mit minimaler Anzahl an Kanten.
@@ -11,12 +11,12 @@ Verschiedene Schwierigkeitsstufen
 	$\hookrightarrow$ Dijkstra.
 	\item ohne Kreise negativen Gesamtgewichts.
 	\item allgemeine Kantengewichte.
-\end{itemize}
-\begin{definition*}[Konservativ]
+\end{itemize}}
+\begin{definition}[Konservativ]
 	Sei $G$ ein Graph mit Gewichten $c:E(G)\to \reell$. Diese Kantengewichtsfunktion heißt \textbf{konservativ} wenn sie keine Kreise negativen Gesamtgewichts enthält.
-\end{definition*}
+\end{definition}
 \subsection{Kürzeste Wege von einer Quelle}
-Algorithmen beruhen auf einer Beobachtung \dq Bellmans Prinzip\dq.
+\textit{Algorithmen beruhen auf einer Beobachtung \dq Bellmans Prinzip\dq.}
 \begin{lemma}
 	Sei $G$ ein Digraph mit konservativen Kantengewichten $c:A(G)\to \reell$, seinen $s$ und $w$ zwei Knoten. Ist $e=(v,w)$ die letzte Kante eines kürzesten Pfades $P$ von $s$ nach $w$, dann ist $P_{[s,v]}$ ($P$ ohne die Kante $e$) ein kürzester Pfad von $s$ nach $v$.
 \end{lemma}
@@ -27,7 +27,7 @@ Algorithmen beruhen auf einer Beobachtung \dq Bellmans Prinzip\dq.
 		\item Sonst gilt für $Q_{[s,w]}$:\\ $c(Q_{[s,w]}) = c(Q) + c(e) - c(Q_{[w,v]} + e) < c(P) - \underbrace{c(Q_{[w,v]} + e)}_{\mathclap{\text{ist ein Kreis und $c$ ist konservativ}}}) \le c(P)$\\ $\lightning$ $P$ ist kürzester $s$-$w$-Pfad.
 	\end{itemize}
 \end{proof}
-Folgerungen:
+\textit{Folgerungen:
 \begin{itemize}
 	\item Algorithmen bauen Wege schrittweise auf.
 	\item Grund, dass meiste Algorithmen den kürzesten Weg von $s$ zu allen Knoten berechnen: Kürzesten $s$-$t$-Pfad berechnet $\Rightarrow$ auch kürzesten $s$-$v$-Pfad $\forall v\in P$ + wir wissen vorher nicht welche Knoten zu $P$ gehören.
@@ -38,7 +38,7 @@ Nachteil: Bläst Eingabe um exponentiellen Faktor auf. Statt
 	&&\Theta(\underbrace{n~log(m)}_{\mathclap{\text{inzidente Kanten}}} + \underbrace{m~log(n)}_{Kanten} + \sum_{\mathclap{e \in E(G)}} log(c(e))) \text{ bekommen wir}\\
 	&&\Theta(n'~log(m') + m'~log(n')) \text{ mit } m' = \sum_{\mathclap{e \in E(G)}} c(e),~n' = n + \sum_{\mathclap{e \in E(G)}} c(e) - 1
 \end{eqnarray*}
-Besser: Dijkstra.
+Besser: Dijkstra.}
 \begin{definition}
 	Sei $G$ ein Digraph mit $s, v \in V(G)$. Wir definieren
 	\begin{itemize}
@@ -70,7 +70,7 @@ Besser: Dijkstra.
 \end{satz}
 \begin{proof}
 	Wir zeigen, dass die folgenden Aussagen nach jeder Ausführung von 4. gelten
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label=\alph*)]
 		\item $\forall v\in R$ und $w\in V(G)\setminus R: L(v) \le L(w)$.
 		\item $\forall v\in R: L(v)$ ist die Länge eines kürzesten $s$-$v$-Pfades in $G$. Wenn $L(v) < \infty$, dann existiert ein $s$-$v$-Pfad der Länge $L(v)$, dessen letzte Kante $(p(v), v)$ ist und dessen Knoten alle zu $R$ gehören.
 		\item $\forall w\in V(G)\setminus R: L(w)$ ist die Länge eines kürzesten $s$-$w$-Pfades in $G[R\cup \set{w}]$. Wenn $L(w) \neq \infty$, dann $p(w)\in R$ und $L(w) = L(p(w)) + c((p(w),w))$.
@@ -96,13 +96,13 @@ Besser: Dijkstra.
 		\item[$\to$] $O(n^2)$
 	\end{itemize}
 \end{proof}
-\begin{rem}
+\begin{rem}~
 	\begin{itemize}
 		\item $O(n^2)$ wieder bestmöglich für dichte Graphen.
-		\item für \dq dünne\dq Graphen: Friedman und Tarjan (1987) haben mittels Fibonacci heaps die Laufzeit auf $O(n~log(n) + m)$ verbessert. Beste Laufzeit für nicht-negative Gewichte.
+		\item für \dq dünne\dq~Graphen: Friedman und Tarjan (1987) haben mittels Fibonacci heaps die Laufzeit auf $O(n~log(n) + m)$ verbessert. Beste Laufzeit für nicht-negative Gewichte.
 	\end{itemize}
 \end{rem}
-Jetzt: konservative Gewichte.
+\textit{Jetzt: konservative Gewichte.}
 \begin{algorithm}
 	\Input{Digraph $G$, konservative Gewichte $c:A(G)\to \reell$, Knoten $s\in V(G)$}
 	\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge}\vspace*{5pt}
@@ -124,13 +124,14 @@ Jetzt: konservative Gewichte.
 \end{satz}
 \begin{proof}
 	Sei zu beliebigen Zeitpunkt $R := \set{v\in V(G) ~\vert~ L(v) < \infty}$, $F := \set{(x,y)\in A(G)~\vert~x=p(y)}$. Wir behaupten:
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label=\alph*)]
 		\item $L(y) \ge L(x) + c((x,y)) ~\forall (x,y)\in F$.
 		\item Wenn $F$ einen Kreis $C$ enthält hat dieser negatives Gesamtgewicht.
 		\item Wenn $C$ konservativ ist, ist $(R,F)$ eine in $s$ verwurzelte Arboreszenz.
 	\end{enumerate}
 	zu a): $L(y) = L(x) + c((x,y))$ wenn $p(y) = x$ gesetzt wurde und $L(x)$ wird nie erhöht.\\
-	zu b): Wir nehmen an, es wird ein Kreis $C$ in $F$ erzeugt indem wir $p(y) = x$ setzen $\to$ vor Einfügen: $L(y) > L(x) + c((x,y)) \Rightarrow L(y) - L(x) > c((x,y))$ und wegen a) $L(w) \ge L(v) + c((v,w))~\forall (v,w) \in A(G)\setminus \set{(x,y)} \Rightarrow L(w) - L(v) \ge c((v,w))$. Aufsummieren $\to$ Gesamtgewicht von $C$ negativ $c((x,y)) + c((y, v_1)) + ... + c((v_l,x)) < L(y) - L(x) + L(v_1) - L(y) + ... + L(x) - L(v_l) = 0$. $C$ konservativ $\overset{b)}{\Rightarrow}$ $F$ azyklisch. $x\in R\setminus \set{s} \Rightarrow p(x) \in R \Rightarrow (R,F)$ Arboreszenz die in $s$ verwurzelt [c)].\\
+	zu b): Wir nehmen an, es wird ein Kreis $C$ in $F$ erzeugt indem wir $p(y) = x$ setzen $\to$ vor Einfügen: $L(y) > L(x) + c((x,y)) \Rightarrow L(y) - L(x) > c((x,y))$ und wegen a) $L(w) \ge L(v) + c((v,w))~\forall (v,w) \in A(G)\setminus \set{(x,y)} \Rightarrow L(w) - L(v) \ge c((v,w))$. Aufsummieren $\to$ Gesamtgewicht von $C$ negativ $c((x,y)) + c((y, v_1)) + ... + c((v_l,x)) < L(y) - L(x) + L(v_1) - L(y) + ... + L(x) - L(v_l) = 0$.\\
+	zu c): $C$ konservativ $\overset{b)}{\Rightarrow}$ $F$ azyklisch. $x\in R\setminus \set{s} \Rightarrow p(x) \in R \Rightarrow (R,F)$ Arboreszenz die in $s$ verwurzelt.\\
 	$L(x)$ ist die länge des $s$-$x$-Pfades in $(R,F)$ für jeden $x\in R$ (zu bel. Zeitpunkt im Algorithmus). Wir behaupten nach $k$ Iterationen, $L(x)$ ist höchstens so lang wie ein kürzester $s$-$x$-Pfad mit $k$ Kanten. Beweis durch Induktion:\\
 	Sei $P$ ein kürzester $s$-$x$-Pfad mit höchstens $k$ Kanten und sei $(w,x)$ die letzte Kante von $P$ $\Rightarrow$ $P_{[s,w]}$ ist kürzester $s$-$w$-Pfad mit höchstens $k-1$ Kanten $\overset{I.V.}{\Rightarrow} L(w) \le c(P_{[s,w]})$ nach $k-1$ Iterationen. In $k$-ter Iteration wird auch Kante $(w,x)$ betrachtet, danach $L(x) \le L(w) + c((w,x)) \le c(P)$. Da kein Weg mehr als $n-1$ Kanten hat folgt aus der Behauptung die Korrektheit vom Algorithmus.\\
 	Laufzeit: offensichtlich.

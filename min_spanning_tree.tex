@@ -7,13 +7,13 @@
 	\end{eqnarray*}
 	\hspace*{10pt}\textbf{Gesucht: } Eine Kantenmenge $F\subseteq E$ mit möglichst geringen Gesamtgewicht $\sum_{e \in F} c_e$, \hspace*{60pt}so dass in $T = (V, F)$ alle Knoten verbunden sind ODER entscheide, dass \hspace*{56pt} $G$ nicht zshgd. ist.
 \end{problem}\vspace*{5pt}
-\begin{enumerate}
+\textit{\begin{enumerate}[leftmargin=*]
 	\item Welche Eigenschaften haben Lösungen?\\
 	$\hookrightarrow$Struktur
 	\item Wie findet man optimale Lösungen?
 	\item Können wir algorithmische Grundideen verwenden, die auch in anderen Situationen funktionieren?
 	\item Effizienz
-\end{enumerate}
+\end{enumerate}}
 \begin{beobachtung*}
 	Ein optimale Lösung für Problem 2.1 kann kein Kreis enthalten. (Beweisskizze: Entfernt man aus einem Kreis eine Kante bleibt der Rest immer noch verbunden).
 \end{beobachtung*}
@@ -23,7 +23,7 @@
 \begin{proof}
 	Klar.
 \end{proof}
-Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ Knoten? Mit jeder eingefügten Kante nimmt die Zahl der Zhk. um 1 ab (mit jeder gelöschten um 1 zu).
+\textit{Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ Knoten? Mit jeder eingefügten Kante nimmt die Zahl der Zhk. um 1 ab (mit jeder gelöschten um 1 zu).}
 \begin{beobachtung*}
 	Ein Baum mit $n$ Knoten hat $n-1$ Kanten. ABER: Nicht jeder Graph mit $n-1$ Kanten und $n$ Knoten ist ein Baum.
 \end{beobachtung*}
@@ -45,20 +45,20 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 	\end{eqnarray*}
 \end{definition}
 \begin{lemma}~
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label=\alph*)]
 		\item Ein ungerichteter Graph $G$ ist zusammenhängend $\Leftrightarrow \delta(X) \neq \emptyset~ \forall ~\emptyset \neq X \subset V(G)$.
 		\item Sei $G$ ein gerichteter Graph und $r \in V(G)$. Dann gibt es einen Pfad von $r$ nach $v$ für jeden $v \in V(G) \Leftrightarrow \delta^+(X) \neq \emptyset~\forall~X\subset V(G)$ mit $r\in X$.
 	\end{enumerate}
 \end{lemma}
 \begin{proof}~
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label=\alph*)]
 		\item Gibt es eine Menge $X\subset V(G)$ mit $r\in X,~v\in V(G)\setminus X$ und $\delta(X) = \emptyset$ dann kann es keinen $r$-$v$-Pfad geben, damit ist $G$ nicht zusammenhängend. Wenn $G$ nicht zusammenhängend ist, dann gibt es für irgendwelche Knoten $r$ und $v$ keinen $r$-$v$-Pfad. Sei $R$ die Menge der Knoten, die von $r$ aus erreichbar sind. Es gilt $r\in R,~v\notin R$ und $\delta(R)=\emptyset$.
 		\item H.A.
 	\end{enumerate}
 \end{proof}
 \begin{satz}[Eigenschaften von Bäumen]
 	Sei $T=(V,F)$ ein Graph mit $n$ Knoten. Dann sind äquivalent
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label=\alph*)]
 		\item $T$ ist ein Baum (zshgd., kreisfrei).
 		\item $T$ hat $n-1$ Kanten und ist kreisfrei.
 		\item $T$ hat $n-1$ Kanten und ist zshgd..
@@ -71,10 +71,10 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 \begin{proof}
 	Wir zeigen a) $\Rightarrow$ g) $\Rightarrow$ e) $\Rightarrow$ d) $\Rightarrow$ f) $\Rightarrow$ b) $\Rightarrow$ c) $\Rightarrow$ a) (Ringschluss).\\
 	a) $\Rightarrow$ g): Weil $T$ zusammenhängend ist, muss es je einen Pfad zwischen zwei Knoten geben. Gebe es zwischen zwei Knoten mehr als einen Pfad, so enthielte die Vereinigung der Pfade einen Kreis $\lightning$ Kreisfreiheit.\\
-	g) $\Rightarrow$ e) $\Rightarrow$ d): Folgt aus Lemma 2.1. a).\\
+	g) $\Rightarrow$ e) $\Rightarrow$ d): Folgt aus Lemma 2.4. a).\\
 	d) $\Rightarrow$ f): Da alle Knoten bereits verbunden sind, liefert jede eingefügte Kante einen Kreis.\\
-	f) $\Rightarrow$ b) $\Rightarrow$ c): Ist klar, wenn man Lemma 2.2 zeigt.\\
-	c) $\Rightarrow$ a): Sei $T$ zusammenhängend mit $n-1$ Kanten. Solange Kreise in $T$ existieren löschen wir eine der Kanten des Kreises und entfernen somit den Kreis. Angenommen wir haben $k$ Kanten entfernt. Der entstehende Graph $T'$ ist immer noch zusammenhängend und kreisfrei. Wir haben $p=1$ Komponenten und $m=(n-1)-k$ Kanten $\overset{Lemma~2.2}{\Rightarrow} n =m+p=n-1-k+1 \Rightarrow k=0$. 
+	f) $\Rightarrow$ b) $\Rightarrow$ c): Ist klar, wenn man Lemma 2.6 zeigt.\\
+	c) $\Rightarrow$ a): Sei $T$ zusammenhängend mit $n-1$ Kanten. Solange Kreise in $T$ existieren löschen wir eine der Kanten des Kreises und entfernen somit den Kreis. Angenommen wir haben $k$ Kanten entfernt. Der entstehende Graph $T'$ ist immer noch zusammenhängend und kreisfrei. Wir haben $p=1$ Komponenten und $m=(n-1)-k$ Kanten $\overset{2.6}{\Rightarrow} n =m+p=n-1-k+1 \Rightarrow k=0$. 
 \end{proof}
 \begin{lemma}
 	$W$ sei ein Wald mit $n$ Knoten, $m$ Kanten und $p$ ZhK.. Dann gilt $n=m+p$.
@@ -96,19 +96,20 @@ Wir betrachten Eigenschaften von Bäumen. Wie viele Kanten hat ein Baum mit $n$ 
 	\caption{Kruskals Algorithmus}
 	\label{fig:Algorithmus}
 \end{algorithm}
-\subsubsection*{Laufzeit}
-\begin{enumerate}
+\textit{Laufzeit
+\begin{enumerate}[leftmargin=*]
 	\item Sortieren der Kanten $O(m~log(m)) = \underbrace{O(m~log(n)}_{\text{Da } m \in O(n^2)}$.\vspace*{-13pt}
 	\item Initialisierung des Baumes $O(1)$.
 	\item Test auf Kreisfreiheit $O(m~log(n))$.
-\end{enumerate}
+\end{enumerate}}
 \begin{problem}~\\[5pt]
 	\hspace*{10pt}\textbf{Gegeben: } $G'$ kreisfrei ($\le n-1$ Kanten), Kante $e$.\\[5pt]
 	\hspace*{10pt}\textbf{Frage: } Ist $G' + e$ kreisfrei?
 \end{problem}
-DFS oder BFS $\to O(n)$.\\
+
+\textit{DFS oder BFS $\to O(n)$.\\
 $\hookrightarrow$ Teste das $m$-fach $\to O(n\cdot m)$\\
-\textbf{Aber} mit anderer Implementierung geht es besser.
+\textbf{Aber} mit anderer Implementierung geht es besser.}
 \begin{satz}
 	Kruskals Algorithmus kann so implementiert werden, dass sich eine Laufzeit von $O(m~log(n))$ ergibt.
 \end{satz}
@@ -136,11 +137,11 @@ $\hookrightarrow$ Teste das $m$-fach $\to O(n\cdot m)$\\
 	\end{itemize}
 	$\Rightarrow h(r) \le log(n) \Rightarrow \text{log. Höhe} \Rightarrow$ Laufzeit $O(m~log(n))$.
 \end{proof}
-\subsubsection*{Korrektheit}
-Wir schauen uns zwei Optimalitätsbedingungen an.	
+\textit{Korrektheit\\[5pt]
+Wir schauen uns zwei Optimalitätsbedingungen an.}
 \begin{satz}
 	Sei $(G,c)$ eine Instanz des Minimum Spanning Tree Problems (MST), sei $T$ ein Spannbaum in $G$. Dann gilt
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label={\alph*)}]
 		\item $T$ ist optimal.
 		\item Für jede Kante $e=\set{x,y} \in E(G)\setminus E(T)$ hat keine Kante auf dem $x$-$y$-Pfad in $T$ höhere Kosten als $e$.
 		\item Für jede Kante $e\in E(T)$ ist $e$ eine billigste Kante in $\delta(V(C))$, wobei $C$ eine ZhK von $T-e$ ist.
@@ -155,10 +156,10 @@ Wir schauen uns zwei Optimalitätsbedingungen an.
 	Kruskals Algorithmus ist korrekt.
 \end{satz}
 \begin{proof}
-	Der Algorithmus konstruiert einen Spannbaum (einen maximalen kreisfreien Teilgraphen $\overset{Satz~2.2~f)}{\Rightarrow}$ Spannbaum). Zudem wird Bedingung b) aus Satz 2.4 erfüllt $\Rightarrow T$ ist optimal.
+	Der Algorithmus konstruiert einen Spannbaum (einen maximalen kreisfreien Teilgraphen $\overset{2.5~f)}{\Rightarrow}$ Spannbaum). Zudem wird Bedingung b) aus Satz 2.9 erfüllt $\Rightarrow T$ ist optimal.
 \end{proof}
-Kruskal nutzt Optimalitätskriterium 2.4 b) - können wir auch c) nutzen?\\
-\hspace*{10pt}$\hookrightarrow$ Ja! $\to$ Prims Algorithmus
+\textit{Kruskal nutzt Optimalitätskriterium 2.9 b) - können wir auch c) nutzen?\\
+\hspace*{10pt}$\hookrightarrow$ Ja! $\to$ Prims Algorithmus}
 \subsection*{Prims Algorithmus}
 \begin{algorithm}
 	\Input{Zshgd.er, ungerichteter Graph $G$\\Kantengewichte $c:E(G) \to \reell$}
@@ -177,7 +178,8 @@ Kruskal nutzt Optimalitätskriterium 2.4 b) - können wir auch c) nutzen?\\
 	Prims Algorithmus ist korrekt. Die Laufzeit ist $O(n^2)$.
 \end{satz}
 \begin{proof}
-	Korrektheit: folgt, da Bedingung c) aus 2.4 erfüllt ist. Laufzeit: Nicht in 3. je alle Kanten druchsehen $\to O(n^2)$. Sondern: für jeden knoten $v\in V(T)$ merken wir uns die billigste Kante (\dq Kandidatenkante\dq) $e\in E(V(T), \set{v})$.
+	Korrektheit: folgt, da Bedingung c) aus 2.9 erfüllt ist.\\
+	Laufzeit: Nicht in 3. je alle Kanten druchsehen $\to O(n^2)$. Sondern: für jeden knoten $v\in V(T)$ merken wir uns die billigste Kante (\dq Kandidatenkante\dq) $e\in E(V(T), \set{v})$.
 	\begin{itemize}
 		\item Initialisierung der Kandidatenkanten $O(m)$
 		\item Auswahl der billigsten Kante unter den Kandidaten $O(n)$

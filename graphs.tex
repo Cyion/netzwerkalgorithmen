@@ -1,9 +1,9 @@
 \section{Graphen}
-	\begin{definition*}[Ungerichteter Graph]
+	\begin{definition}[Ungerichteter Graph]
 		Ein \textbf{ungerichteter Graph} $G$ ist ein Tripel $(V, E, \Psi)$, für das
 		\begin{enumerate}
 			\item $V$ und $E$ endliche Mengen sind und
-		\begin{itemize}
+			\begin{itemize}
 				\item $V$ ist die Knotenmenge
 				\item $E$ ist die Kantenmenge
 			\end{itemize}
@@ -17,22 +17,22 @@
 				\item Zwei Kanten $e, e'$ sind \textbf{parallel}, wenn $\Psi(e) = \Psi(e')$.
 				\item Eine Kante $e$ ist eine \textbf{Schleife}, falls $\card{\Psi(e)} = 1$.
 				\item Ein Graph ohne parallele Kanten und Schleifen heißt \textbf{einfach}. Man schreibt dann $G = (V, E)$ mit $E(G)$ der Kantenmenge von G.
-				\begin{itemize}[$\hookrightarrow$]
+				\begin{itemize}[label=$\hookrightarrow$]
 					\item  In einem einfachen Graphen kann man $\set{v_i, v_j}$ für eine Kante $e_{i,j}$ zwischen $v_i$ und $v_j$ schreiben.
 				\end{itemize}
 				\item $\card{E}$ ist die Zahl der Kanten und $\card{V}$ die Zahl der Knoten von $G$.
-				\begin{itemize}[$\hookrightarrow$]
+				\begin{itemize}[label=$\hookrightarrow$]
 					\item Oft verwendet man $n$ für $\card{V}$ und $m$ für $\card{E}$.
 				\end{itemize}
 			\end{itemize}
-	\end{definition*}
-	\begin{definition*}[Nachbarschaft in Graphen]
+	\end{definition}
+	\begin{definition}[Nachbarschaft in Graphen]
 		Eine Kante $e = \set{v, w}$ in einem Graphen verbindet zwei Knoten $v$ und $w$. Der Knoten $v$ ist dann Nachbar von $w$, d.h. $v$ und $w$ sind \textbf{adjazent} (\dq benachbart\dq). Außerdem ist sowohl $v$ als auch $w$ \textbf{inzident} (\dq zusammentreffend mit\dq) zu $e$.
-	\end{definition*}
-	\begin{definition*}[Knotengrad]
+	\end{definition}
+	\begin{definition}[Knotengrad]
 		Der \textbf{Grad} eines Knotens $v$ ist die Anzahl der inzidenten Kanten und wird bezeichnet mit $deg(v)$ (auch $\delta(v)$).\\[5pt]
 		Ein Knoten $v$ heißt \textbf{isoliert}, wenn $deg(v) = 0$.
-	\end{definition*}
+	\end{definition}
 	\begin{satz}
 		Sei $G = (V, E)$ ein Graph. Dann gilt
 		\begin{equation*}
@@ -43,20 +43,20 @@
 	\begin{lemma}[Handshake-Lemma]
 		In jedem Graphen ist die Anzahl der Knoten mit ungeradem Grad gerade.
 	\end{lemma}
-	\begin{definition*}[Teilgraph]
+	\begin{definition}[Teilgraph]
 		Ein Teilgraph $H = (V(H), E(H))$ eines Graphen $G =\\ (V(G), E(G))$ ist ein Graph mit
 		\begin{eqnarray*}
 			V(H) &\subseteq& V(G),\\
 			E(H) &\subseteq& E(G).
 		\end{eqnarray*}
 		$H$ ist \textbf{aufspannend}, wenn $V(H) = V(G)$ gilt.
-	\end{definition*}
-	\begin{definition*}[Isomorph]
+	\end{definition}
+	\begin{definition}[Isomorph]
 		Seien $G = (V(G), E(G))$ und $H = (V(H), E(H))$ zwei Graphen. Wenn es eine bijektive Abbildung $f : V(G) \to V(H)$ gibt, sodass $\set{v, w} \in E(G)$ gilt, genau dann, wenn $\set{f(v), f(w)} \in E(H)$ gilt, dann nennen wir die Graphen \textbf{äquivalent} (oder \textbf{isomorph}).
-	\end{definition*}
+	\end{definition}
 	
 	\subsection{Datenstrukturen für Graphen}
-	\begin{definition*}[Adjazenzmatrix]
+	\begin{definition}[Adjazenzmatrix]
 		Eine \textbf{Adjazenzmatrix} $A = (a_{vw})$ eines Graphen $G = (V, E)$ beschreibt, welche Knoten $v_i$ zu welchen Knoten $v_j$ adjazent sind ($v_i, v_j \in V$). Die Matrix hat die Dimension $n\times n$, wobei $n = \card{V}$.\\
 		Es gilt $A\in \set{0, 1}^{n\times n}$ mit
 		\begin{equation*}
@@ -66,8 +66,8 @@
 			\end{cases*}
 		\end{equation*}
 		Eine Adjazenzmatrix ist quadratisch und symmetrisch. Für einfache Graphen enthält die Diagonale ausschließlich Nullen.\\
-	\end{definition*}
-	\begin{definition*}[Inzidenzmatrix]
+	\end{definition}
+	\begin{definition}[Inzidenzmatrix]
 		Eine \textbf{Inzidenzmatrix} $A = (a_{ve})$ eines Graphen $G = (V, E)$ beschreibt, welche Knoten $v_i \in V$ zu welchen Kanten $e_j \in E$ inzident sind. Die Matrix hat die Dimension $n\times m$, wobei $n = \card{V}$ und $m = \card{E}$.\\
 		Es gilt $A\in \set{0, 1}^{n\times m}$ mit
 		\begin{equation*}
@@ -77,33 +77,33 @@
 			\end{cases*}
 		\end{equation*}
 		Für große Graphen enthält die Matrix tendenziell viele Nullen.
-	\end{definition*}
-	\begin{definition*}[Kantenliste]
+	\end{definition}
+	\begin{definition}[Kantenliste]
 		Eine \textbf{Kantenliste} eines Graphen $G = (V, E)$ ist eine Liste aus zweielementigen Knotenmengen $\set{v_i, v_j} \in E$, die eine Kante von $v_i$ zu $v_j$ beschreiben $(v_i, v_j \in V)$.\\ Die Kantenliste benötigt $\Theta(m~log(n))$ Speicherplatz und ist damit sparsamer als die Inzidenzmatrix (für $n \ge 8$).
-	\end{definition*}
-	\begin{definition*}[Adjazenzliste]
+	\end{definition}
+	\begin{definition}[Adjazenzliste]
 		Eine \textbf{Adjazenzliste} eines Graphen $G = (V, E)$ gibt zu jedem Knoten $v_i$ die benachbarten Knoten $v_j$ an $(v_i, v_j \in V)$.\\
 		Das ist etwas praktischer als die Kantenliste, wenn man für Graphenalgorithmen direkten Zugriff auf die Nachbarn eines Knotens benötigt. Man muss nicht die Nachbarn erst mühsam aus einer Liste heraussuchen.\\
 		Die Adjazenzliste benötigt $\Theta(n~log(n)+m~log(n))$ Speicherplatz. Im Allgemeinen sind Graphen mit vielen isolierten Knoten (ohne Kanten) uninteressant, d.h z.B. $m\ge \frac{n}{2}$ oder $m\ge n$ o.ä. Also wieder $\Theta(m~log(n))$.
-	\end{definition*}
+	\end{definition}
 	
 	\subsection{Wege und Pfade}
-	\begin{definition*}[Kantenfolge]
+	\begin{definition}[Kantenfolge]
 		Eine \textbf{Kantenfolge} $W$ in einem Graphen $G = (V, E)$ ist eine Folge $v_1, e_1, v_2, e_2, v_3, ..., e_k, v_{k+1}$ mit $k \ge 0,~e_i = \set{v_i, v_{i+1}} \in E$
-	\end{definition*}
-	\begin{definition*}[Weg]
+	\end{definition}
+	\begin{definition}[Weg]
 		Wiederholt sich keine Kante in einer Kantenfolge, dann spricht man von einem \textbf{Weg}. Ein \textbf{geschlossener Weg} (auch Tour) kehrt am Ende zum Startknoten zurück. Ein \textbf{Eulerweg} benutzt alle Kanten eines Graphen. Eine \textbf{Eulertour} kehrt außerdem zum Startknoten zurück.
-	\end{definition*}
-	\begin{definition*}[Pfad]
+	\end{definition}
+	\begin{definition}[Pfad]
 		Wiederholt sich kein Knoten in einer Kantenfolge, dann sprichtman von einem \textbf{Pfad}. Ein \textbf{Kreis} ist ein geschlossener Pfad, d.h. der Pfad kehrt zum Startknoten zurück. Ein \textbf{Hamiltonpfad} besucht alle Knoten eines Graphen. Ein \textbf{Hamiltonkreis} (auch Hamiltontour) kehrt außerdem zum Startknoten zurück.
-	\end{definition*}
+	\end{definition}
 	\begin{satz}
 		Sei $G$ ein Graph mit Adjazenzmatrix $A$. Der Koeffizient $a_{vw}^{(m)}$ von $A^m$ gibt die Anzahl der Kantenfolgen der Länge $m$ von Knoten $v$ zu Knoten $w$ an. Insbesondere gilt $a_{vv}^{(2)} = deg(v)$.
 	\end{satz}
-	\begin{definition*}[Zusammenhängend]
+	\begin{definition}[Zusammenhängend]
 		Ein Graph $G$ heißt \textbf{zusammenhängend}, wenn es zwischen je zwei Knoten aus $G$ einen Weg gibt.\\[5pt]
 		Ein maximaler zusammenhängender Teilgraph von $G$ heißt eine \textbf{(Zusammenhangs-) Komponente} von $G$.
-	\end{definition*}
+	\end{definition}
 	\begin{satz}[notwendiges Kriterium]
 		Ein zusammenhängender Graph $G$ mit $n$ Knoten muss zumindest $n - 1$ Kanten haben.
 	\end{satz}

@@ -1,5 +1,5 @@
 \section{Netzwerkflüsse}
-Flüsse in Graphen. Beispiele:
+\textit{Flüsse in Graphen. Beispiele:
 \begin{itemize}
 	\item Wasser in Leitungssystemen
 	\item Verkehr in Straßensystemen
@@ -13,7 +13,7 @@ Eigenschaften:
 		\item tatsächlicher Fluss
 	\end{itemize}
 	\item \dq Flusserhaltung\dq : Bilanzierung der Flüsse an jedem Knoten (\dq fliest nicht mehr raus, als rein\dq)
-\end{itemize}
+\end{itemize}}
 \begin{definition}
 	Gegeben: Digraph $G$ mit Kapazität $u: A(G) \to \reell_+$.
 	\begin{enumerate}
@@ -27,14 +27,14 @@ Eigenschaften:
 \hspace*{10pt}\textbf{Gegeben: }Netzwerk $(G, u, s, t)$.\\[5pt]
 \hspace*{10pt}\textbf{Gesucht: }Ein $s$-$t$-Fluss mit maximalem Wert.
 \end{problem}
-Formulierung als LP (Lineares Programm):
+\textit{Formulierung als LP (Lineares Programm):
 \begin{eqnarray*}
 	max~ F \text{ sodass} &&\sum_{e\in \delta^+(s)} f_e - \sum_{e\in \delta^-(s)} f_e = F,\\
 	&&\sum_{e\in \delta^-(v)} f_e - \sum_{e\in \delta^+(v)} f_e = 0~\forall v\in V(G)\setminus \set{s,t},\\
 	&&0\le f_e \le u_e~\forall e\in A(G).
 \end{eqnarray*}
 Also: Können wir effizient lösen (LP $\in$ P).\vspace*{5pt}\\
-Ziel hier: \dq kombinatorische\dq Algorithmen.
+Ziel hier: \dq kombinatorische\dq Algorithmen.}
 \begin{beobachtung}
 	Das Max Flow Problem hat immer eine optimale Lösung.
 \end{beobachtung}
@@ -50,21 +50,26 @@ Ziel hier: \dq kombinatorische\dq Algorithmen.
 \end{definition}
 \begin{lemma}[Schranken durch Schnitte]
 	Für bel. $A\subseteq V(G)$ mit $s\in A$, $t\notin A$ und jedem $s$-$t$-Fluss $f$ gilt
-	\begin{enumerate}[a)]
+	\begin{enumerate}[label=\alph*)]
 		\item $Wert(f) = \sum_{e\in \delta^-(A)} f(e) - \sum_{e\in \delta^+(A)} f(e)$
 		\item $Wert(f) \le \sum_{e\in \delta^+(A)} f(e)$
 	\end{enumerate}
 \end{lemma}
 \begin{proof}
-	zu a): Flusserhaltung gilt für $v\in A\setminus \set{s}\\ \Rightarrow Wert(f) = \sum_{e\in \delta^+(s)} f(e) - \sum_{e\in \delta^-(s)} f(e) = \sum_{v\in A}(\sum_{e\in \delta^+(v)} f(e) - \sum_{e\in \delta^-(v)} f(e)) = \sum_{e\in \delta^+(A)} f(e) - \sum_{e\in \delta^-(A)} f(e)$.\\
+	zu a): Flusserhaltung gilt für $v\in A\setminus \set{s}$, daraus folgt
+	\begin{eqnarray*}
+		Wert(f) &=& \sum_{e\in \delta^+(s)} f(e) - \sum_{e\in \delta^-(s)} f(e)\\
+		&=& \sum_{v\in A}(\sum_{e\in \delta^+(v)} f(e) - \sum_{e\in \delta^-(v)} f(e))\\
+		&=& \sum_{e\in \delta^+(A)} f(e) - \sum_{e\in \delta^-(A)} f(e).
+	\end{eqnarray*}
 	zu b): Folgt mit a), wenn wir $0 \le f(e) \le u(e)~\forall e\in A(G)$ nutzen.
 \end{proof}
-Was sagt Lemma 4.1:\\[5pt]
+\textit{Was sagt Lemma 4.5:\\[5pt]
 Der Wert eines Max Flow kann die Kapazität eines minimalen $s$-$t$-Schnitts nicht überschreiben - tatsächlich gilt Gleichheit, zeigen wir später.\\[5pt]
-Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation: Fluss verringern $\widehat{=}$ Fluss umleiten.
+Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation: Fluss verringern $\widehat{=}$ Fluss umleiten.}
 \begin{definition}~
-	\begin{enumerate}[1)]
-		\item Für ein Digraph $G$ ist $\overset{\leftrightarrow}{G} := (V(G), A(G) \dot\cup \set{\overset{\leftarrow}{e} \vert e \in A(G)})$ mit $\overset{\leftarrow}{e} = (w,v)$ für $e=(v,w)$ \dq Rückwärtskante\dq von $e$ der doppelt gewichtete Graph für $G$.
+	\begin{enumerate}
+		\item Für ein Digraph $G$ ist $\overset{\leftrightarrow}{G} := (V(G), A(G) \dot\cup \set{\overset{\leftarrow}{e} \vert e \in A(G)})$ mit $\overset{\leftarrow}{e} = (w,v)$ für $e=(v,w)$ \dq Rückwärtskante\dq~ von $e$ der doppelt gewichtete Graph für $G$.
 		\item Für einen Fluss $f$ in einem Digraph $G$ mit Kapazität $z:A(G)\to \reell_+$ definieren wir die \textbf{Residualkapazitäten} $u_f$ \[ u_f(e) = \begin{cases} u(e) - f(e) &\text{für Vorwärtskante,}\\ f(e) &\text{für Rückwärtskante.} \end{cases} \]
 		\item Der \textbf{Residualgraph} $G_t$ ist der Graph $(V(G), \set{e\in A(\overset{\leftrightarrow}{G})~\vert~ u_f(e) > 0})$.
 		\item Interpretation des Residualgraphen:
@@ -94,12 +99,14 @@ Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation:
 \begin{satz}
 	Ein $s$-$t$-Fluss ist optimal $\Leftrightarrow$ Es gibt keinen $f$-augmentierenden Pfad.
 \end{satz}
-Also: stoppt der Algorithmus, dann ist $f$ tatsächlich ein optimaler Fluss.
+\textit{Also: stoppt der Algorithmus, dann ist $f$ tatsächlich ein optimaler Fluss.}
 \begin{proof}~\\
 	$\Rightarrow$: Wenn es einen $f$-augmentierenden Pfad gibt $\to$ 4 berechnet Fluss mit größerem Wert $\Rightarrow$ $f$ war nicht maximal.\\
-	$\Leftarrow$: Wenn es keinen augmentierenden Pfad gibt $\to$ $t$ ist in $G_f$ von $s$ nicht erreichbar. $R:= \set{\text{Knoten in } G_f \text{ , die von } s \text{ erreichbar sind}}$, Definition von $G_f$:\\ $f(e) = \begin{cases}
+	$\Leftarrow$: Wenn es keinen augmentierenden Pfad gibt $\to$ $t$ ist in $G_f$ von $s$ nicht erreichbar. $R:= \set{\text{Knoten in } G_f \text{ , die von } s \text{ erreichbar sind}}$, Definition von $G_f$:\\ \begin{equation*}
+		f(e) = \begin{cases}
 		u(e) & \forall e \in \delta_G^+(R),\\
 		0 & \forall e \in \delta_G^-(R).
-	\end{cases}$
-	$\overset{\text{Lemma 4.1 a)}}{\Rightarrow} Wert(f) = \sum_{e \in \delta^+(R)} u(e) \overset{\text{Lemma 4.1 b)}}{\Rightarrow} f$ ist optimal.
+		\end{cases}
+	\end{equation*}
+	$\overset{\text{4.5 a)}}{\Rightarrow} Wert(f) = \sum_{e \in \delta^+(R)} u(e) \overset{\text{4.5 b)}}{\Rightarrow} f$ ist optimal.
 \end{proof}
