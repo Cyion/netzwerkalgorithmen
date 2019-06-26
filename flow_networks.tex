@@ -110,3 +110,75 @@ Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation:
 	\end{equation*}
 	$\overset{\text{4.5 a)}}{\Rightarrow} Wert(f) = \sum_{e \in \delta^+(R)} u(e) \overset{\text{4.5 b)}}{\Rightarrow} f$ ist optimal.
 \end{proof}
+\subsection{Schwierigkeit mit Ford-Fulkerson}
+\begin{satz}[MaxFlow-MinCut]
+	In einem Netzwerk $(G, u, s, t)$ ist der maximale Wert eines $s$-$t$-Flusses gleich der minimalen Kapazität eines $s$-$t$-Schnittes.
+\end{satz}
+\begin{proof}
+	Satz 4.7 $\Rightarrow$ für jeden maximalen $s$-$t$-Fluss $f$ gibt es einen $s$-$t$-Schnitt dessen Kapazität gleich dem Flusswert ist $\Rightarrow~max~Wert(f) \ge~min~\text{Wert eines Schnittes} \overset{4.5~b)}{\Rightarrow}$ MaxFlow = MinCut. $Wert(f) \le \sum_{e\in \delta^+(A)}u(e)$
+\end{proof}
+\begin{beobachtung*}
+	Wollen wir den Wert eines maximalen Flusses erhöhen, müssen wir am minimalen Cut die Kapazitäten verändern.
+\end{beobachtung*}
+\begin{korollar}
+	Wenn die Kapazitäten in einem Netzwerk ganzzahlig sind, dann existiert ein optimaler ganzzahliger Fluss.
+\end{korollar}
+\begin{satz}
+	Sei $(G, u, s, t)$ ein Netzwerk und $f$ ein $s$-$t$-Fluss in $G$. Dann gibt es
+	\begin{itemize}
+		\item eine Familie $P$ von $s$-$t$-Pfaden
+		\item eine Familie $C$ von Kreisen
+	\end{itemize}
+	so dass \[f(e) = \sum_{p\in P \cup C: e \in E(p)}w(p), ~\forall~e\in E(G)\] und $\card{P} + \card{C}\le \card{E(G)}$. $\sum_{p\in P} w(p) = Wert(f)$. \\[5pt]
+	Außerdem: Wenn $f$ ganzzahlig ist kann $w$ ganzzahlig gewählt werden.
+\end{satz}
+\begin{proof}
+	Wir konstruieren $P, C$ und $w$ durch Induktion über die Anzahl der Kanten mit positivem Fluss. Sei $e=(v_0, w_0)$ eine Kante mit $f(e)>0$. Falls $w_0\neq t$ gibt es eine Kante $(v_0, w_1)$ mit positivem Fluss (Flusserhaltung). Wir machen immer weiter (mit $i=1$ startend) und finden ein $w_{i+1}$:\\
+	Wenn $w_i\in \set{t, v_0, w_0, ..., w_{i-1}}$ stoppen wir (Muss passieren, da endliche Knotenzahl). Sonst finden wir Kante $(w_i, w_{i+1})$ mit positivem Fluss und setzen $i = i+1$.\\
+	Das Gleiche machen wir in der anderen Richtung. Wir suchen sukzessive Vorgängerkanten: Falls $v_0 \neq s$, gibt es eine Kante $(v_1, v_0)$ mit positivem Fluss ... . Ende:
+	\begin{enumerate}[label=\arabic*)]
+		\item $w_i\in \set{v_0, w_0, ..., w_{i-1}}$ oder $v_j \in \set{w_0, v_0, ..., v_{j-1}}$ dann haben wir einen Kreis.
+		\item $w_i=t$ und $v_j=s$, dann haben wir einen $s$-$t$-Pfad.
+	\end{enumerate}
+	Wir haben eine Kreis oder einen $s$-$t$-Pfad in $G$ gefunden. UND: wir haben nur Kanten mit positivem Fluss verwendet. Sei $p$ dieser Kreis oder Pfad. Sei $w(p) = \underset{e\in E(p)}{min}f(e)$.\\
+	Setze \[f'(e):=\begin{cases}
+		f(e) - w(p) &\text{für } e\in E(p),\\
+		f(e) &\text{für } e\notin E(p).
+	\end{cases}\]
+	Das heißt wir entfernen einen Fluss in Höhe von $w(p)$ auf $p$. Dann können wir für $f'$ die Induktionsannahme verwenden (weniger Kanten mit positivem Fluss).
+\end{proof}
+\newpage
+\begin{algorithm}
+	\Input{Netzwerk $(G, u, s, t)$}
+	\Output{Ein $s$-$t$-Fluss $f$ mit maximalem Wert}\vspace*{5pt}
+	Setze $f(e)=0~\forall e\in A(G)$\\
+	Finde einen kürzesten $f$-augmentierenden Pfad $P$\\
+	\hspace*{15pt}Falls keiner existiert: \textbf{stop} \\
+	Berechne $\gamma := \underset{e\in P}{min}~ u_f(e)$\\
+	\hspace*{15pt}Augmentiere $f$ entlang $P$ um $\gamma$ und \textbf{goto} 2
+	\caption{Edmonds-Karp Algorithmus (1972)}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\textit{Also: Implementiere 2. von Ford-Fulkerson als BFS in $G_f$}
+\begin{lemma}
+	Sei $f_1, f_2, ...$ eine Folge von Flüssen, wobei $f_{i+1}$ aus $f_i$ durch Augmentierung entlang eines kürzesten f-augmentierenden Pfades $P_i$ entsteht. Dann gilt:
+	\begin{enumerate}[label=\alph*)]
+		\item $\card{E(P_k)} \le \card{E(P_{k+1})} ~\forall~k$
+		\item $\card{E(P_k)} + 2 \le \card{E(P_l)} ~\forall~k<l$, so dass $P_k \cup P_l$ ein Paar entgegengesetzer Kanten enthält.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	
+\end{proof}
+\begin{satz}
+	Unabhängig von den Kantenkapazitäten stoppt Algorithmus 10 (Edmonds-Karp) nach höchstens $\frac{m\cdot n}{2}$ Augmentierungen.
+\end{satz}
+\begin{proof}
+	
+\end{proof}
+\begin{korollar}
+	Der Edmonds-Karp Algorithmus löst MaxFlow in $O(m^2\cdot n)$.
+\end{korollar}
+\begin{proof}
+	
+\end{proof}
