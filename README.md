@@ -12,3 +12,4 @@ Lecture http://web.ibr.cs.tu-bs.de/courses/ss19/na/.
 	- Moore-Bellman-Ford  
 - Flow networks
 	- Ford-Fulkerson
+	- Edmonds-Karp
