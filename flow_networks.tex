@@ -167,18 +167,34 @@ Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation:
 		\item $\card{E(P_k)} + 2 \le \card{E(P_l)} ~\forall~k<l$, so dass $P_k \cup P_l$ ein Paar entgegengesetzer Kanten enthält.
 	\end{enumerate}
 \end{lemma}
-\begin{proof}
-	
+\begin{proof}~\\
+	zu a): Betrachte den Graphen $G_1$, den man aus $P_k \cup P_{k+1}$ durch entfernen von entgegengesetzen Kanten erhält (Kanten, die in $P_k$ und $P_{k+1}$ auftreten, werden zweifach aufgenommen). Jede Kante aus $E(G_{f_{k+1}})\setminus E(G_{f_k})$ muss eine Umkehrkante einer Kante in $P_k$ sein. $\Rightarrow E(G_1) \subseteq E(G_{f_k})$. Sei $H_1$ der Graph bestehend aus zwei Kopien von $(t,s) \Rightarrow G_1 + H_1$ ist eulersch $\Rightarrow$ Jeder Knoten wird genauso oft betreten wie verlassen $\Rightarrow G_1 + H_1$ lässt sich in Menge von Kantendisjunkte Kreise zerlegen. $\Rightarrow$ für jede Kante in $H_1$ gibt es einen Kantendisjunkten $s$-$t$-Pfad  $Q_1, Q_2$. $E(G_1) \subseteq E(G_{f_k}) \Rightarrow Q_1, Q_2$ sind $f_k$-augmentierende Pfade. $P_k$ kürzester $f_k$-augmentierender Pfad.\\
+	$\Rightarrow \card{E(P_k)} \le \card{E(Q_1)}, \card{E(P_k)} \le \card{E(Q_2)}$.\\
+	$\Rightarrow 2\card{E(P_k)} \le \card{E(Q_1)} + \card{E(Q_2)} \le \card{E(G_1)} \le \card{E(P_k)} + \card{E(P_{k+1})}$.\\
+	$\Rightarrow \card{E(P_k)} \le \card{E(P_{k+1})}$.\\
+	zu b): Wegen a) gilt auch $k < i \le l: \card{E(P_k)} \le \card{E(P_i)} \le \card{E(P_l)}$.\\
+	Spezieller: Wir betrachten ein Paar $k,l$ mit $k < i \le l$ mit $P_i \cup P_l$ hat kein Paar entgegengesetzter Kanten. Wie oben: Sei $G_1$ der Graph, der aus $P_k \cup P_l$ durch Entfernen entgegengesetzter Kantenpaare entsteht. Wieder $E(G_1) \subseteq E(G_{f_k})$, $E(P_k) \subseteq E(G_{f_k})$, $E(P_l) \subseteq E(G_{f_k})$. Jede Kante in $E(G_{f_l}), E(G_{f_k})$ muss eine Umkehrung einer Kante in $P_k, ..., P_{l-1}$ sein. Aber (Wahl von $k$ und $l$) nur $P_k$ enthält Umkehrung von Kanten in $P_l$. Wieder:
+	\begin{itemize}
+		\item $H_1$ zwei Kopien von $(t,s)$\\
+		$\hookrightarrow$ 2 kantendisjunkte $s$-$t$-Pfade $Q_1$ und $Q_2$
+		\item $Q_1, Q_2$ beide $f_k$-augmentierende Pfade
+	\end{itemize}
+	$P_k$ war kürzester $f_k$-augmentierender Pfad.\\
+	$\Rightarrow \card{E(P_k)} \le \card{E(Q_1)}, \card{E(P_k)} \le \card{E(Q_2)}$.\\
+	$\Rightarrow 2\card{E(P_k)} \le \card{E(Q_1)} + \card{E(Q_2)} \le \card{G_1} -2 \le \card{E(P_k)} + \card{E(P_l)} - 2$ da wir mindestens 2 Kanten entfernt haben.
 \end{proof}
 \begin{satz}
 	Unabhängig von den Kantenkapazitäten stoppt Algorithmus 10 (Edmonds-Karp) nach höchstens $\frac{m\cdot n}{2}$ Augmentierungen.
 \end{satz}
-\begin{proof}
-	
+\begin{proof}~
+	\begin{itemize}
+		\item[i)] Jede Augmentierung hat eine \dq Engstelle\dq, eine \dq Flaschenhalskante\dq, die den Wert $\gamma$, und damit den Wert um den der Fluss erhöht wird, begrenzt.
+		\item[ii)] Eine Kante in $\overset{\leftrightarrow}{G}$ kann nur dann zweimal als Flaschenhalskante auftauchen, wenn zwischendurch die Gegenkante in einem augmentierenden Pfad vorgekommen ist (dann wird die Kante wieder in den Residualgraphen aufgenommen). Für eine Kante $e$ sei $P_{i_1}, P_{i_2}, ...$ die Folge von augmentierenden Pfaden, die $e$ als Flaschenhalskante enthalten $\to$ zwischen $P_{ij}$ und $P_{ij+1}$ gibt es einen augmentierenden Pfad $P_k ~(ij < k \le ij+1)$ der $\overset{\leftarrow}{e}$ enthält. $\overset{4.11~b)}{\Rightarrow} \card{E(P_{ij})} + 4 \le \card{E(P_k)} + 2 \le \card{E(P_{ij+1})} ~\forall j$. Wegen $1 \le \card{E(P_{ij})} \le n-1$ gilt $j < \frac{n}{4}$ also höchstens $\frac{n}{4}$ augmentierende Pfade enthalten $e$ als Flaschenhalskante. Jeder augmentierende Pfad, muss mindestens eine Kante aus $\overset{\leftrightarrow}{G}$ als Flaschenhalskante haben. $\Rightarrow$ Höchstens $\card{\underbrace{E(\overset{\leftrightarrow}{G})}_{2m}}\cdot \frac{n}{4} = \frac{n \cdot m}{2}$ augmentierende Pfade.
+	\end{itemize}
 \end{proof}
 \begin{korollar}
 	Der Edmonds-Karp Algorithmus löst MaxFlow in $O(m^2\cdot n)$.
 \end{korollar}
 \begin{proof}
-	
+	Satz 4.12 $\to ~\le\frac{m\cdot n}{2}$ Augmentierungen, je Augmentierung BFS $\to$ $O(m)$.
 \end{proof}
