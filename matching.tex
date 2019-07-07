@@ -1,0 +1,53 @@
+\section{Matching}
+\begin{definition}[Matching]~
+	\begin{itemize}
+		\item[i)] Ein \textbf{Matching} in einem Grap $G=(V,E)$ ist eine Menge paarweise disjunkter Kanten.
+		\item[ii)] Ein Matching heißt \textbf{perfekt}, wenn jeder Knoten in $V(G)$ zu einer Matchingkante gehört.
+		\item[iii)] Ein \textbf{Vertex Cover} ist eine Kantenüberdeckende Knotenmenge.
+		\item[iv)] \textbf{Maximales Matching} in $G:$ $\mathcal{V}(G)$.
+		\item[v)] \textbf{Minimales Vertex Cover} in $G:$ $\mathcal{T}(G)$.
+	\end{itemize}
+\end{definition}
+\begin{problem}[Kardinalitätsmatching/Max Matching]~\\[5pt]
+	\hspace*{10pt}\textbf{Gegeben: }Ungerichteter Graph $G = (V,E)$.\\[5pt]
+	\hspace*{10pt}\textbf{Gesucht: }Ein Matching $M$ größtmöglicher Kardinalität.
+\end{problem}
+\begin{problem}[Minimales Vertex Cover]~\\[5pt]
+	\hspace*{10pt}\textbf{Gegeben: }Ungerichteter Graph $G = (V,E)$.\\[5pt]
+	\hspace*{10pt}\textbf{Gesucht: }Ein Vertex Cover $C$ kleinstmöglicher Kardinalität.
+\end{problem}
+\begin{satz}
+	Sei $G$ ein ungerichteter Graph. Es gilt max Matching $\le$ min Vertex Cover.
+\end{satz}
+\begin{definition}[Bipartite Graphen]
+	Ein Graph heißt \textbf{bipartit}, wenn sich die Knotenmenge so in zwei Mengen $A,B$ mit $V(G) = A \dot\cup B$ zerlegen lässt, dass jede Kante genau einen Knoten in $A$ und einen Knoten in $B$ enthält.
+\end{definition}
+\textit{Damit: Bipartite Graphen enthalten keine Kreise ungerader Länge. Für bipartite Graphen gibt es eine Beziehung zu Flussproblemen.}
+\begin{satz}
+	Ein bipartites Matching maximaler Kardinalität in $G$ entspricht einem maximalen Fluss in $(G',u,s,t)$ und umgekehrt.
+\end{satz}
+\begin{proof}
+	
+\end{proof}
+\begin{satz}
+	In bipartiten Graphen gilt $\mathcal{V}(G) = \mathcal{T}(G)$.
+\end{satz}
+\begin{proof}
+	
+\end{proof}
+\begin{satz}[Satz von Hall]
+	Sei $G$ ein bipartiter Graph mit $V(G)=A\dot\cup B$. Dann hat $G$ ein $A$ überdeckendes Matching $\Leftrightarrow$ $\card{\underbrace{T(X)}_{\mathclap{\text{Menge der Nachbarn von } X}}} \ge \card{X}~\forall X\subseteq A$.
+\end{satz}
+\begin{proof}
+	
+\end{proof}
+\begin{korollar}[Heiratssatz von Frobenius]
+	Sei $G$ ein bipartiter Graph mit $V(G) = A\dot\cup B$. Dann hat $G$ ein perfektes Matching $\Leftrightarrow \card{A}=\card{B}$ und $\card{T(X)} \ge \card{X}~\forall X \subseteq A$.
+\end{korollar}
+\textit{Aus dem Beweis von Satz 5.7 folgt}
+\begin{korollar}
+	Das Kardinalitätsmatching-Problem kann in bipartiten Graphen in $O(n\cdot m)$ gelöst werden.
+\end{korollar}
+\begin{proof}
+	
+\end{proof}
