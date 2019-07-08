@@ -26,8 +26,12 @@
 \begin{satz}
 	Ein bipartites Matching maximaler Kardinalität in $G$ entspricht einem maximalen Fluss in $(G',u,s,t)$ und umgekehrt.
 \end{satz}
-\begin{proof}
-	
+\begin{proof}~
+	\begin{itemize}
+		\item Jedes Matching in $G$ lässt sich direkt auf einen Fluss in $G'$ abbilden, indem die Matchingkanten einen Fluss von jeweisl 1 erhalten und entsprechende Flüsse von $s$ und $t$ gewählt werden.
+		\item Umgekehrt lässt sich jeder ganzzahliger Fluss (der auf jeder Kante den Wert 0 oder 1 hat) auf ein Matching in $G$ abbilden.
+	\end{itemize}
+	Da es immer ein ganzzahliges Optimum für das Flussproblem gibt, sind also insbesondere die Optimalwerte gleich.
 \end{proof}
 \begin{satz}
 	In bipartiten Graphen gilt $\mathcal{V}(G) = \mathcal{T}(G)$.
@@ -49,5 +53,16 @@
 	Das Kardinalitätsmatching-Problem kann in bipartiten Graphen in $O(n\cdot m)$ gelöst werden.
 \end{korollar}
 \begin{proof}
-	
+	Konstruktion von oben. Betrachte Ford-Fulkerson für das äquivalente Flussproblem
+	\begin{itemize}
+		\item Eine Augmentierung benötigt $O(m)$.
+		\item Um einen maximalen $s$-$t$-Fluss (und damit ein maximales Matching) zu finden brauchen wir höchstens $n$ Augmentierungen $\Rightarrow$ $(O(m\cdot n))$.
+	\end{itemize}
 \end{proof}
+\textit{Wie sehen Augmentierungen aus?\\
+\hspace*{10pt}$\hookrightarrow$ Verbesserung von Matchings\\
+Augmentierende Pfade in $(G',u,s,t)$ entsprechen alternierenden Pfaden in $G$.}
+\begin{definition}
+	Sei $G$ ein Graph (bipartit oder nicht), und sei $M$ ein beliebiges Matching in $G$. Ein Pfad $P$ ist ein \textbf{$M$-alternierender Pfad}, wenn $E(P)\setminus M$ ein Matching ist. Ein $M$-alternierender Pfad ist \textbf{$M$-augmentierend}, wenn seine Endpunkte nicht von $M$ überdeckt werden (er zwei nicht gematchte Knoten verbindet).
+\end{definition}
+\textit{Augmentierende Pfade müssen ungerade Länge haben.}
