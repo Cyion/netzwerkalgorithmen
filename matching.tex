@@ -8,6 +8,72 @@
 		\item[v)] \textbf{Minimales Vertex Cover} in $G:$ $\mathcal{T}(G)$.
 	\end{itemize}
 \end{definition}
+\begin{figure}[ht]
+	\begin{subfigure}[c]{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+			\node[circle, fill, blue, scale = .8] (A) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of A] (B) {};
+			\node[circle, fill, blue, scale = .8, below = 0.5cm of B] (C) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of C] (D) {};
+			\node[circle, fill, blue, scale = .8, below = 0.5cm of D] (E) {};
+			\node[circle, fill, blue, scale = .8, below = 0.5cm of E] (F) {};
+			
+			\node[circle, fill, black, scale = .8, right = 3cm of A] (H) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of H] (I) {};
+			\node[circle, fill, blue, scale = .8, below = 0.5cm of I] (J) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of J] (K) {};
+			\node[circle, fill, blue, scale = .8, below = 0.5cm of K] (L) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of L] (M) {};
+			
+			\path (A) edge (H);
+			\path (A) edge (I);
+			\path (B) edge (J);
+			\path (C) edge (H);
+			\path (C) edge (J);
+			\path (C) edge (K);
+			\path (D) edge (L);
+			\path (E) edge (H);
+			\path (E) edge (I);
+			\path (E) edge (J);
+			\path (E) edge (K);
+			\path (E) edge (L);
+			\path (E) edge (M);
+			\path (F) edge (L);
+			\path (F) edge (M);
+			\end{tikzpicture}
+		\end{center}
+		\subcaption{Vertex Cover}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[every loop/.style={}]
+			\node[circle, fill, black, scale = .8] (A) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of A] (B) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of B] (C) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of C] (D) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of D] (E) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of E] (F) {};
+			
+			\node[circle, fill, black, scale = .8, right = 3cm of A] (H) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of H] (I) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of I] (J) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of J] (K) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of K] (L) {};
+			\node[circle, fill, black, scale = .8, below = 0.5cm of L] (M) {};
+			
+			\path (A) edge (I);
+			\path (B) edge (J);
+			\path (C) edge (H);
+			\path (D) edge (L);
+			\path (E) edge (K);
+			\path (F) edge (M);
+			\end{tikzpicture}
+		\end{center}
+		\subcaption{Matching}
+	\end{subfigure}
+	\caption{Vertex Cover und Matching im bipartiten Graph}
+\end{figure}
 \begin{problem}[Kardinalitätsmatching/Max Matching]~\\[5pt]
 	\hspace*{10pt}\textbf{Gegeben: }Ungerichteter Graph $G = (V,E)$.\\[5pt]
 	\hspace*{10pt}\textbf{Gesucht: }Ein Matching $M$ größtmöglicher Kardinalität.
@@ -19,10 +85,88 @@
 \begin{satz}
 	Sei $G$ ein ungerichteter Graph. Es gilt max Matching $\le$ min Vertex Cover.
 \end{satz}
+\begin{figure}[ht]
+	\begin{center}
+		\begin{tikzpicture}
+			\node[circle, fill, black, scale = .8] (A) {};
+			\node[circle, fill, blue, scale = .8, below left = 1cm of A] (B) {};
+			\node[circle, fill, blue, scale = .8, below right = 1cm of A] (C) {};
+			
+			\path (A) edge[red] (B);
+			\path (A) edge (C);
+			\path (B) edge (C);
+		\end{tikzpicture}
+		\end{center}
+	\caption{max Matching $\le$ min Vertex Cover}
+\end{figure}
+\newpage
 \begin{definition}[Bipartite Graphen]
 	Ein Graph heißt \textbf{bipartit}, wenn sich die Knotenmenge so in zwei Mengen $A,B$ mit $V(G) = A \dot\cup B$ zerlegen lässt, dass jede Kante genau einen Knoten in $A$ und einen Knoten in $B$ enthält.
 \end{definition}
-\textit{Damit: Bipartite Graphen enthalten keine Kreise ungerader Länge. Für bipartite Graphen gibt es eine Beziehung zu Flussproblemen.}
+\textit{Damit: Bipartite Graphen enthalten keine Kreise ungerader Länge. Für bipartite Graphen gibt es eine Beziehung zu Flussproblemen:}
+\begin{center}
+	\begin{tikzpicture}
+		\node[circle, fill, black, scale = .8] (A) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of A] (B) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of B] (C) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of C] (D) {};
+		
+		\node[circle, fill, black, scale = .8, right = 2cm of A] (E) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of E] (F) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of F] (G) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of G] (H) {};
+		\node[circle, fill, black, scale = .8, below = .5cm of H] (I) {};
+		
+		\path (A) edge (E);
+		\path (B) edge (E);
+		\path (B) edge (F);
+		\path (C) edge (G);
+		\path (C) edge (H);
+		\path (C) edge (I);
+		\path (D) edge (F);
+	\end{tikzpicture}
+\end{center}
+\textit{
+\begin{itemize}
+	\item füge 2 neue Knoten $s,t$ ein: Kanten von $s$ nach $v\in A$ und von $v\in B$ zu $t$.
+	\item Kanten von $A$ nach $B$ richten.
+	\item $u(e) = 1$ falls $s\in e$ oder $t\in e$, $u(e) = \infty$ sonst.
+\end{itemize}
+}
+\begin{center}
+	\begin{tikzpicture}
+	\node[circle, fill, black, scale = .8, below left = 1.5cm of A, label = s] (S) {};
+	\node[circle, fill, black, scale = .8] (A) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of A] (B) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of B] (C) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of C] (D) {};
+	
+	\node[circle, fill, black, scale = .8, below right = 1.5cm of E, label = t] (T) {};
+	\node[circle, fill, black, scale = .8, right = 2cm of A] (E) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of E] (F) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of F] (G) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of G] (H) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of H] (I) {};
+	
+	\path (A) edge[->] node[above, scale = .8]{$\infty$} (E);
+	\path (B) edge[->] node[above, scale = .8]{$\infty$} (E);
+	\path (B) edge[->] node[above, scale = .8]{$\infty$} (F);
+	\path (C) edge[->] node[above, scale = .8]{$\infty$} (G);
+	\path (C) edge[->] node[above, scale = .8]{$\infty$} (H);
+	\path (C) edge[->] node[above, scale = .8]{$\infty$} (I);
+	\path (D) edge[->] node[above, scale = .8]{$\infty$} (F);
+	\path (S) edge[->] node[above, scale = .8]{1} (A);
+	\path (S) edge[->] node[above, scale = .8]{1} (B);
+	\path (S) edge[->] node[above, scale = .8]{1} (C);
+	\path (S) edge[->] node[above, scale = .8]{1} (D);
+	\path (E) edge[->] node[above, scale = .8]{1} (T);
+	\path (F) edge[->] node[above, scale = .8]{1} (T);
+	\path (G) edge[->] node[above, scale = .8]{1} (T);
+	\path (H) edge[->] node[above, scale = .8]{1} (T);
+	\path (I) edge[->] node[above, scale = .8]{1} (T);
+	\end{tikzpicture}
+\end{center}
+\textit{Aus gegebenen bipartiten Graph $G$ wird $(G',u,s,t)$.}
 \begin{satz}
 	Ein bipartites Matching maximaler Kardinalität in $G$ entspricht einem maximalen Fluss in $(G',u,s,t)$ und umgekehrt.
 \end{satz}
@@ -37,13 +181,23 @@
 	In bipartiten Graphen gilt $\mathcal{V}(G) = \mathcal{T}(G)$.
 \end{satz}
 \begin{proof}
-	
+	$\mathcal{V}(G) = Max~Flow(G) = Min~Cut(G) \overset{!}{=} \mathcal{T}(G)$. Betrachte Min Cut $\delta^+(\set{s}\cup Q), Q \subseteq V$. Dieser Cut hat endliche Kapazität, d.h. es gibt keine Kante von $A \cap Q$ zu $B\setminus Q$.
+	\begin{eqnarray*}
+		A \cap Q & \text{ zu } & B \cap Q\\
+		A \cap Q & \text{ zu } & B \setminus Q ~\lightning\\
+		A \setminus Q & \text{ zu } & B \cap Q\\
+		A \setminus Q & \text{ zu } & B \setminus Q
+	\end{eqnarray*}
+	Also ist jede Kante in $G$ inzident zu einem Knoten aus $C = (A\setminus Q)\cup (B \cap Q)$. D.h. $C$ ist ein Cover der Größe $\card{C} = \card{A\setminus Q} + \card{B\cap Q}$. Die Kapazität des Cuts ist ebenfalls $\card{C} = \card{A\setminus Q} + \card{B\cap Q}$ (nach Konstruktion) d.h. Min Cut = min Vertex Cover.
 \end{proof}
 \begin{satz}[Satz von Hall]
 	Sei $G$ ein bipartiter Graph mit $V(G)=A\dot\cup B$. Dann hat $G$ ein $A$ überdeckendes Matching $\Leftrightarrow$ $\card{\underbrace{T(X)}_{\mathclap{\text{Menge der Nachbarn von } X}}} \ge \card{X}~\forall X\subseteq A$.
 \end{satz}
-\begin{proof}
-	
+\begin{proof}~
+	\begin{itemize}
+		\item Notwendigkeit ist klar.
+		\item Um zu zeigen, dass auch hinreichend nehmen wir an $G$ hat kein $A$ überdeckendes Matching. $\mathcal{V}(G) \le \card{A} \overset{5.7}{\Rightarrow} \mathcal{T}(G) < \card{A}$. Sei $A' \subseteq A, B' \subseteq B$, so dass $A' \cup B'$ alle Kanten überdeckt und $\card{A' \cup B'} < \card{A} \Leftrightarrow \card{A'} + \card{B'} < \card{A}$ (da $A'$ und $B'$ disjunkt) $\Leftrightarrow \card{B'} < \card{A} - \card{A'}$. Es gilt $T(A\setminus A') \subseteq B'$ ( da $B'$ alle Kanten überdeckt, die nicht von $A'$ überdeckt werden) $\Rightarrow \card{T(A\setminus A')} \le \card{B'} < \card{A} - \card{A'} = \card{A\setminus A'}~\lightning$ Kontraposition der Hinrichtung gezeigt.
+	\end{itemize}
 \end{proof}
 \begin{korollar}[Heiratssatz von Frobenius]
 	Sei $G$ ein bipartiter Graph mit $V(G) = A\dot\cup B$. Dann hat $G$ ein perfektes Matching $\Leftrightarrow \card{A}=\card{B}$ und $\card{T(X)} \ge \card{X}~\forall X \subseteq A$.
@@ -66,3 +220,9 @@ Augmentierende Pfade in $(G',u,s,t)$ entsprechen alternierenden Pfaden in $G$.}
 	Sei $G$ ein Graph (bipartit oder nicht), und sei $M$ ein beliebiges Matching in $G$. Ein Pfad $P$ ist ein \textbf{$M$-alternierender Pfad}, wenn $E(P)\setminus M$ ein Matching ist. Ein $M$-alternierender Pfad ist \textbf{$M$-augmentierend}, wenn seine Endpunkte nicht von $M$ überdeckt werden (er zwei nicht gematchte Knoten verbindet).
 \end{definition}
 \textit{Augmentierende Pfade müssen ungerade Länge haben.}
+\begin{satz}[Berg, 1957]
+	Sei $G$ ein Graph mit einem beliebigen Matching $M$. $M$ hat max Kardinalität $\Leftrightarrow$ es gibt keinen $M$-augmentierenden Pfad.
+\end{satz}
+\begin{proof}
+	
+\end{proof}

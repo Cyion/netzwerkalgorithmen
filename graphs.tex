@@ -26,6 +26,28 @@
 				\end{itemize}
 			\end{itemize}
 	\end{definition}
+	\begin{figure}[ht]
+			\begin{subfigure}[c]{0.5\textwidth}
+				\begin{center}
+				\begin{tikzpicture}
+					\node[circle, fill, black, scale = .8] (A) {};
+					\node[circle, fill, black, scale = .8, above = 1cm of A] (B) {};
+					\path (A) edge[bend right] (B);
+					\path (A) edge[bend left] (B);
+				\end{tikzpicture}
+				\end{center}
+				\subcaption{parallele Kanten}
+			\end{subfigure}
+			\begin{subfigure}[c]{0.5\textwidth}
+				\begin{center}
+				\begin{tikzpicture}[every loop/.style={}]
+					\node[circle, fill, black, scale = .8] (A) {};
+					\path[every node/.style={font=\sffamily\small}] (A) edge[loop above, scale = 2.5] (A);
+				\end{tikzpicture}
+				\end{center}
+				\subcaption{Schleife}
+			\end{subfigure}
+	\end{figure}
 	\begin{definition}[Nachbarschaft in Graphen]
 		Eine Kante $e = \set{v, w}$ in einem Graphen verbindet zwei Knoten $v$ und $w$. Der Knoten $v$ ist dann Nachbar von $w$, d.h. $v$ und $w$ sind \textbf{adjazent} (\dq benachbart\dq). Außerdem ist sowohl $v$ als auch $w$ \textbf{inzident} (\dq zusammentreffend mit\dq) zu $e$.
 	\end{definition}
@@ -91,6 +113,27 @@
 	\begin{definition}[Kantenfolge]
 		Eine \textbf{Kantenfolge} $W$ in einem Graphen $G = (V, E)$ ist eine Folge $v_1, e_1, v_2, e_2, v_3, ..., e_k, v_{k+1}$ mit $k \ge 0,~e_i = \set{v_i, v_{i+1}} \in E$
 	\end{definition}
+	\begin{figure}[ht]
+		\begin{center}
+			\begin{tikzpicture}
+			\node[circle, fill, black, scale = .8] (A) {};
+			\node[circle, fill, black, scale = .8, above = 1cm of A] (B) {};
+			\node[circle, fill, black, scale = .8, left = 1cm of A] (C) {};
+			\node[circle, fill, black, scale = .8, right = 1cm of B] (D) {};
+			\node[circle, fill, black, scale = .8, below = 1cm of D] (E) {};
+			\node[circle, fill, black, scale = .8, right = 1cm of E] (F) {};
+			\path (A) edge[red] (B);
+			\path (A) edge[red] (C);
+			\path (C) edge (B);
+			\path (B) edge[red] (D);
+			\path (A) edge (D);
+			\path (A) edge (E);
+			\path (E) edge (F);
+			\path (D) edge[red] (F);
+			\end{tikzpicture}
+		\end{center}
+		\caption{Kantenfolge in $G$}
+	\end{figure}
 	\begin{definition}[Weg]
 		Wiederholt sich keine Kante in einer Kantenfolge, dann spricht man von einem \textbf{Weg}. Ein \textbf{geschlossener Weg} (auch Tour) kehrt am Ende zum Startknoten zurück. Ein \textbf{Eulerweg} benutzt alle Kanten eines Graphen. Eine \textbf{Eulertour} kehrt außerdem zum Startknoten zurück.
 	\end{definition}
@@ -104,6 +147,33 @@
 		Ein Graph $G$ heißt \textbf{zusammenhängend}, wenn es zwischen je zwei Knoten aus $G$ einen Weg gibt.\\[5pt]
 		Ein maximaler zusammenhängender Teilgraph von $G$ heißt eine \textbf{(Zusammenhangs-) Komponente} von $G$.
 	\end{definition}
+	\begin{figure}[ht]
+	\begin{center}
+		\begin{tikzpicture}
+			\node[circle, fill, black, scale = .8] (A) {};
+			\node[circle, fill, black, scale = .8, above = 1cm of A] (B) {};
+			\node[circle, fill, black, scale = .8, left = 1cm of A] (C) {};
+			\node[circle, fill, black, scale = .8, right = 2.5cm of B] (D) {};
+			\node[circle, fill, black, scale = .8, below right = 1cm of D] (E) {};
+			\node[circle, fill, black, scale = .8, below left = 1cm of D] (F) {};
+			\node[circle, fill, black, scale = .8, right = 3cm of D] (G) {};
+			\node[circle, fill, black, scale = .8, below right = 1cm of G] (H) {};
+			\node[circle, fill, black, scale = .8, below left = 1cm of G] (I) {};
+			\node[circle, fill, black, scale = .8, below left = 1cm of H] (J) {};
+			\path (A) edge (B);
+			\path (A) edge (C);
+			\path (C) edge (B);
+			\path (D) edge (F);
+			\path (D) edge (E);
+			\path (G) edge (H);
+			\path (G) edge (I);
+			\path (H) edge (J);
+			\path (I) edge (J);
+		\end{tikzpicture}
+		\caption{Graph mit 3 Zusammenhangskomponenten}
+	\end{center}
+	\vspace*{-15pt}
+	\end{figure}
 	\begin{satz}[notwendiges Kriterium]
 		Ein zusammenhängender Graph $G$ mit $n$ Knoten muss zumindest $n - 1$ Kanten haben.
 	\end{satz}
