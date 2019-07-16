@@ -181,7 +181,13 @@
 	In bipartiten Graphen gilt $\mathcal{V}(G) = \mathcal{T}(G)$.
 \end{satz}
 \begin{proof}
-	$\mathcal{V}(G) = Max~Flow(G) = Min~Cut(G) \overset{!}{=} \mathcal{T}(G)$. Betrachte Min Cut $\delta^+(\set{s}\cup Q), Q \subseteq V$. Dieser Cut hat endliche Kapazität, d.h. es gibt keine Kante von $A \cap Q$ zu $B\setminus Q$.
+	$\mathcal{V}(G) = Max~Flow(G) = Min~Cut(G) \overset{!}{=} \mathcal{T}(G)$. 
+		\begin{figure}[ht]
+			\begin{center}
+				\includegraphics[scale=.3]{satz_5_8.png}
+			\end{center}
+		\end{figure}\\
+	Betrachte Min Cut $\delta^+(\set{s}\cup Q), Q \subseteq V$. Dieser Cut hat endliche Kapazität, d.h. es gibt keine Kante von $A \cap Q$ zu $B\setminus Q$.
 	\begin{eqnarray*}
 		A \cap Q & \text{ zu } & B \cap Q\\
 		A \cap Q & \text{ zu } & B \setminus Q ~\lightning\\
@@ -214,15 +220,175 @@
 	\end{itemize}
 \end{proof}
 \textit{Wie sehen Augmentierungen aus?\\
-\hspace*{10pt}$\hookrightarrow$ Verbesserung von Matchings\\
-Augmentierende Pfade in $(G',u,s,t)$ entsprechen alternierenden Pfaden in $G$.}
+\hspace*{10pt}$\hookrightarrow$ Verbesserung von Matchings}
+\begin{figure}[ht]
+	\begin{center}
+	\begin{tikzpicture}
+	\node[circle, fill, black, scale = .8, below left = 1.5cm of A, label = s] (S) {};
+	\node[circle, fill, black, scale = .8] (A) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of A] (B) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of B] (C) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of C] (D) {};
+	
+	\node[circle, fill, black, scale = .8, below right = 1.5cm of E, label = t] (T) {};
+	\node[circle, fill, black, scale = .8, right = 2cm of A] (E) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of E] (F) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of F] (G) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of G] (H) {};
+	
+	\path (A) edge[->] (E);
+	\path (B) edge[->, red] (E);
+	\path (B) edge[->] (F);
+	\path (C) edge[->] (G);
+	\path (C) edge[->, red] (F);
+	\path (D) edge[->, red] (G);
+	\path (D) edge[->] (H);
+	\path (S) edge[->] (A);
+	\path (S) edge[->] (B);
+	\path (S) edge[->] (C);
+	\path (S) edge[->] (D);
+	\path (E) edge[->] (T);
+	\path (F) edge[->] (T);
+	\path (G) edge[->] (T);
+	\path (H) edge[->] (T);
+	
+	\path (S) edge[->, green, bend left] (A);
+	\path (A) edge[->, green, bend left] (E);
+	\path (E) edge[->, green, bend right] (B);
+	\path (B) edge[->, green, bend left] (F);
+	\path (F) edge[->, green, bend right] (C);
+	\path (C) edge[->, green, bend left] (G);
+	\path (G) edge[->, green, bend right] (D);
+	\path (D) edge[->, green, bend right] (H);
+	\path (H) edge[->, green, bend right] (T);
+	\end{tikzpicture}
+	\caption{augmentierender Pfad in $G'$}
+	\end{center}
+\vspace*{-10pt}
+\end{figure}\\
+\textit{Augmentierende Pfade in $(G',u,s,t)$ entsprechen alternierenden Pfaden in $G$.}
 \begin{definition}
 	Sei $G$ ein Graph (bipartit oder nicht), und sei $M$ ein beliebiges Matching in $G$. Ein Pfad $P$ ist ein \textbf{$M$-alternierender Pfad}, wenn $E(P)\setminus M$ ein Matching ist. Ein $M$-alternierender Pfad ist \textbf{$M$-augmentierend}, wenn seine Endpunkte nicht von $M$ überdeckt werden (er zwei nicht gematchte Knoten verbindet).
 \end{definition}
 \textit{Augmentierende Pfade müssen ungerade Länge haben.}
+\begin{figure}[ht]
+	\begin{center}
+	\begin{tikzpicture}
+	\node[circle, fill, black, scale = .8] (A) {};
+	\node[circle, fill, black, scale = .8, right = .5cm of A] (B) {};
+	\node[circle, fill, black, scale = .8, right = .5cm of B] (C) {};
+	\node[circle, fill, black, scale = .8, right = .5cm of C] (D) {};
+	\node[circle, fill, black, scale = .8, above = .5cm of B] (E) {};
+	\node[circle, fill, black, scale = .8, above = .5cm of C] (F) {};
+	\node[circle, fill, black, scale = .8, above = .5cm of D] (G) {};
+	\node[circle, fill, black, scale = .8, above = .5cm of F] (H) {};
+	
+	\path (A) edge[-] (B);
+	\path (B) edge[-] (C);
+	\path (C) edge[-, red] (D);
+	\path (B) edge[-, red] (E);
+	\path (E) edge[-] (F);
+	\path (E) edge[-] (C);
+	\path (F) edge[-, red] (G);
+	\path (F) edge[-] (H);
+	\path (G) edge[-] (D);
+	\path (G) edge[-] (C);
+	\path (F) edge[-] (D);
+	
+	\path (A) edge[-, bend right, green] (B);
+	\path (C) edge[-, bend right, green] (D);
+	\path (B) edge[-, bend right, green] (E);
+	\path (E) edge[-, bend right, green] (C);
+	\path (F) edge[-, bend left, green] (G);
+	\path (F) edge[-, bend left, green] (H);
+	\path (G) edge[-, bend left, green] (D);
+	\end{tikzpicture}
+	\caption{$M$-augmentierender Pfad}
+	\end{center}
+\end{figure}
+\newpage
 \begin{satz}[Berg, 1957]
 	Sei $G$ ein Graph mit einem beliebigen Matching $M$. $M$ hat max Kardinalität $\Leftrightarrow$ es gibt keinen $M$-augmentierenden Pfad.
 \end{satz}
-\begin{proof}
-	
+\begin{proof}~\\
+	\glqq$\Rightarrow$\grqq: Sei $P$ ein $M$-augmentierender Pfad $\Rightarrow M \Delta E(P)~ (=(M\setminus E(P)) \cup (E(P)\setminus M))$ ist Matching größterer Kardinalität la $M$. $\Rightarrow M$ ist nicht maximal.\\
+	\glqq$\Leftarrow$\grqq: Sei $M'$ ein Matching mit $\card{M'} > \card{M} \Rightarrow M \Delta M'$ ist kantendisjunkte Vereinigung alternierender Kreise und Pfade. Wegen $\card{M'} > \card{M}$ muss mindestens einer dieser Pfade $M$-augmentierend sein.
 \end{proof}
+\textit{Wie findet man einen $M$-augmentierende Pfad?
+\begin{itemize}
+	\item Matchingkanten (schwarz)
+	\item Nicht-Matchingkanten (weiß)
+	\item \glqq suchende\grqq~ Knoten (weiß)
+	\item \glqq gleichgültige\grqq~ Knoten (schwarz)
+\end{itemize}
+Starte bei einem ungematchten Knoten $v \to$ \glqq weiß\grqq.\\
+Falls einer der Nachbarknoten ungematcht\\
+\hspace*{10pt}$\hookrightarrow$ Füge Kante hinzu, liefert besseres Matching\\
+Falls alle gematcht $\to$ alle \glqq schwarz \grqq; daran: \glqq schwarze\grqq~ Kanten\\
+\hspace*{10pt}$\hookrightarrow$ andere Endknoten}
+\begin{center}
+	\begin{tikzpicture}
+	\node[circle, fill, black, scale = .8, label = v] (A) {};
+	\node[circle, fill, black, scale = .8, right = 1cm of A] (B) {};
+	\node[circle, fill, black, scale = .8, above = .5cm of B] (C) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of B] (D) {};
+	
+	\node[state, scale = .35, right = 1cm of B] (E) {};
+	\node[state, scale = .35,, above = .5cm of E] (F) {};
+	\node[state, scale = .35,, below = .5cm of E] (G) {};
+	
+	\node[state, scale = .35,, right = 1cm of G] (H) {};
+	
+	\path (A) edge[-] (B);
+	\path (A) edge[-] (C);
+	\path (A) edge[-] (D);
+	\path (B) edge[-, red] (E);
+	\path (C) edge[-, red] (F);
+	\path (D) edge[-, red] (G);
+	\path (G) edge[-, dotted] (H);
+	\end{tikzpicture}
+\end{center}
+\textit{Falls einer der weißen Knoten anderweitig \glqq versorgbar\grqq~ ist entsteht ein ungerader alternierender Pfad, also eine Verbesserung des Matchings.\\
+Falls nicht: Färbe Endknoten wieder weiß und fahre fort.\\
+$\Rightarrow$ Baumstruktur\\
+\hspace*{10pt}$\hookrightarrow$ weiße\textbackslash schwarze Knoten abwechselnd\\
+\hspace*{10pt}$\hookrightarrow$ weiße\textbackslash schwarze Kanten abwechselnd\\
+$\Rightarrow$ Breitensuche von $v$ aus\\
+\hspace*{10pt}$\hookrightarrow$ Für jede ZhK von $G$ wähle einen ungematchten Knoten $r$ als Wurzel\\
+\hspace*{10pt}$\hookrightarrow$ Wir nennen einen Knoten \glqq schwarz\grqq, wenn er ungeraden Abstand von $r$ hat; \hspace*{23pt}\glqq weiß\grqq, wenn er geraden Abstand von $r$ hat\\
+Mit BFS bauen wir einen alternierenden Wald.}
+\begin{algorithm}
+	\Input{$G=(V,E)$ mit $V=V_1 \dot\cup V_2$}
+	\Output{Maximales Matching $M$}\vspace*{5pt}
+	Setze $M=\emptyset, R=\emptyset$\\
+	\While{$\exists r\in V_1\setminus R$ ungematcht}{
+		Wähle $r\in V_1\setminus R$ ungematcht\\
+		Setze $T:=(\set{r}, \emptyset)$\\
+		$R:= R \cup \set{r}$\\
+		$W(T) = \set{r}$\\
+		\While{$\exists \set{v,w} \in E$ mit $v \in W(T) \wedge w\notin V(T)$}{
+			\eIf{$w$ ist ungematcht}{
+				Benutze $\set{v,w}$ um augmentierenden Pfad zu komplettieren\\
+				\hspace*{10pt}$\hookrightarrow$ augmentiere $M$\\
+				\If{es gibt keinen ungematchten Knoten mehr}{
+					\textbf{return} \glqq Perfektes Matching\grqq				
+				}
+				\textbf{goto} 2
+			}{
+				Benutze $\set{v,w}$ um $T$ zu erweitern
+			}
+		}
+	}
+	\textbf{return} Maximales Matching $M$
+	\caption{Maximales Matching in bipartiten Graphen}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\begin{satz}
+	Algorithmus 11 liefert ein korrektes Ergebnis.
+\end{satz}
+\begin{proof}
+	Satz 5.12 in Verbindung mit Bipartitheit von $G$.
+\end{proof}
+\begin{satz}[Satz von Tutte, 1947]
+	Ein Graph $G=(V,E)$ hat ein perfektes Matching $\Leftrightarrow$ für jede Menge $A \subseteq V$ gilt $\underbrace{OC}_{\mathclap{\text{\# ungerader Komponenten}}}(G\setminus A) \le \card{A}$.
+\end{satz}
