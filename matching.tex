@@ -100,6 +100,7 @@
 	\caption{max Matching $\le$ min Vertex Cover}
 \end{figure}
 \newpage
+\subsection{Bipartites Matching}
 \begin{definition}[Bipartite Graphen]
 	Ein Graph heißt \textbf{bipartit}, wenn sich die Knotenmenge so in zwei Mengen $A,B$ mit $V(G) = A \dot\cup B$ zerlegen lässt, dass jede Kante genau einen Knoten in $A$ und einen Knoten in $B$ enthält.
 \end{definition}
@@ -383,12 +384,61 @@ Mit BFS bauen wir einen alternierenden Wald.}
 	\caption{Maximales Matching in bipartiten Graphen}
 	\label{fig:Algorithmus}
 \end{algorithm}
+\begin{algorithm}
+	\Input{Matching $M$ in Graph $G$,\\ $M$-alternierender Baum $T$,\\ Kante $\set{v,w}$ von $G$ mit $v\in W(T), w \notin V(T)$, $w$ ist gematcht}
+	Sei $\set{w,z}$ die Matchingkante, die $w$ überdeckt\\
+	Ersetze $T$ durch $E(T) = E(T)\cup \set{\set{v,w}, \set{w,z}}, W(T) = W(T) \cup \set{z}$
+	\caption{Benutze $\set{v,w}$ um $T$ zu erweitern}
+	\label{fig:Algorithmus}
+\end{algorithm}
+\begin{center}
+	\begin{tikzpicture}
+	\node[circle, fill, black, scale = .8, label = r] (A) {};
+	\node[circle, fill, black, scale = .8, right = 1cm of A] (B) {};
+	\node[circle, fill, black, scale = .8, above = .5cm of B] (C) {};
+	\node[circle, fill, black, scale = .8, below = .5cm of B] (D) {};
+	
+	\node[state, scale = .35, right = 1cm of B] (E) {};
+	\node[state, scale = .35, above = .5cm of E] (F) {};
+	\node[state, scale = .35, below = .5cm of E, label = v] (G) {};
+	
+	\node[circle, fill, black, scale = .8, right = 1cm of G, label = w] (H) {};
+	\node[state, scale = .35, right = 1cm of H, label = z] (I) {};
+	
+	\path (A) edge[-] (B);
+	\path (A) edge[-] (C);
+	\path (A) edge[-] (D);
+	\path (B) edge[-, red] (E);
+	\path (C) edge[-, red] (F);
+	\path (D) edge[-, red] (G);
+	\path (G) edge[-] (H);
+	\path (H) edge[-, red] (I);
+	\end{tikzpicture}
+\end{center}
 \begin{satz}
 	Algorithmus 11 liefert ein korrektes Ergebnis.
 \end{satz}
 \begin{proof}
 	Satz 5.12 in Verbindung mit Bipartitheit von $G$.
 \end{proof}
+\begin{beobachtung}
+	Für perfekte Matchings brauchen wir eine gerade Anzahl an Knoten. Reicht aber nicht aus.
+\end{beobachtung}
 \begin{satz}[Satz von Tutte, 1947]
 	Ein Graph $G=(V,E)$ hat ein perfektes Matching $\Leftrightarrow$ für jede Menge $A \subseteq V$ gilt $\underbrace{OC}_{\mathclap{\text{\# ungerader Komponenten}}}(G\setminus A) \le \card{A}$.
 \end{satz}
+\begin{satz}[Tutte-Berg-Formel, 1958]
+	Für $G=(V,E)$ gilt:
+	\begin{equation*}
+		max\set{\card{M}~\vert~ M \text{ ist Matching}} = min\set{\frac{1}{2}(\card{V}-OC(G\setminus A) + \card{A})~\vert~ A \subseteq V}
+	\end{equation*}
+\end{satz}
+\begin{satz}
+	Sei $G$ bipartit, $M$ ein Matching, $T$ ein alternierender Baum für den keine Kante von $G$ einen Knoten in $W(T)$ mit einem Knoten nicht in $V(T)$ verbindet. Dann hat $G$ kein perfektes Matching.
+\end{satz}
+\begin{proof}
+	Sei $S(T) = V(T)\setminus W(T)$, die Menge der schwarzen Kanten in $T$. Nach Konstruktion gilt $\card{S(T)} = \card{W(T)} - 1$. $G$ ist bipartit.\\
+	$\Rightarrow$ keine 2 weißen Knoten können benachbart sein.\\
+	$\Rightarrow$ jeder Knoten in $W(T)$ ungerade Komponente (Kardinalität 1) von $G\setminus S(T)$.\\
+	$\underset{\card{S(T)} < \card{W(T)}}{\overset{5.15}{\Rightarrow}}$ Behauptung.
+\end{proof}

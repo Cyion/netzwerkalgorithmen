@@ -111,15 +111,31 @@ Grundkonzept für Algorithmen: Flüsse erhöhen oder verringern. Interpretation:
 	$\overset{\text{4.5 a)}}{\Rightarrow} Wert(f) = \sum_{e \in \delta^+(R)} u(e) \overset{\text{4.5 b)}}{\Rightarrow} f$ ist optimal.
 \end{proof}
 \subsection{Schwierigkeit mit Ford-Fulkerson}
+\begin{beispiel}~\\
+	\begin{center}
+	\begin{tikzpicture}
+		\node[circle, fill, black, scale = .8] (A) {};
+		\node[circle, fill, black, scale = .8, above right = 1cm of A] (B) {};
+		\node[circle, fill, black, scale = .8, below right = 1cm of A] (C) {};
+		\node[circle, fill, black, scale = .8, below right = 1cm of B] (D) {};
+		
+		\path (A) edge[->] node[above left, scale = .8]{N} (B);
+		\path (A) edge[->] node[below left, scale = .8]{N} (C);
+		\path (B) edge[->] node[right, scale = .8]{1} (C);
+		\path (B) edge[->] node[above right, scale = .8]{N} (D);
+		\path (C) edge[->] node[below right, scale = .8]{N} (D);
+	\end{tikzpicture}
+	\end{center}
+\end{beispiel}
 \begin{satz}[MaxFlow-MinCut]
 	In einem Netzwerk $(G, u, s, t)$ ist der maximale Wert eines $s$-$t$-Flusses gleich der minimalen Kapazität eines $s$-$t$-Schnittes.
 \end{satz}
 \begin{proof}
 	Satz 4.7 $\Rightarrow$ für jeden maximalen $s$-$t$-Fluss $f$ gibt es einen $s$-$t$-Schnitt dessen Kapazität gleich dem Flusswert ist $\Rightarrow~max~Wert(f) \ge~min~\text{Wert eines Schnittes} \overset{4.5~b)}{\Rightarrow}$ MaxFlow = MinCut. $Wert(f) \le \sum_{e\in \delta^+(A)}u(e)$
 \end{proof}
-\begin{beobachtung*}
+\begin{beobachtung}
 	Wollen wir den Wert eines maximalen Flusses erhöhen, müssen wir am minimalen Cut die Kapazitäten verändern.
-\end{beobachtung*}
+\end{beobachtung}
 \begin{korollar}
 	Wenn die Kapazitäten in einem Netzwerk ganzzahlig sind, dann existiert ein optimaler ganzzahliger Fluss.
 \end{korollar}
