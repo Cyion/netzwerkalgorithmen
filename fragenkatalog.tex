@@ -1,0 +1,95 @@
+\documentclass[a4paper,10pt]{scrreprt}
+\usepackage{sty/package}
+\usepackage{sty/document}
+\usepackage{sty/math}
+\usepackage{chngcntr}
+\usepackage{mathtools}
+\usepackage{algorithm2e}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+
+\lstset{
+	basicstyle=\ttfamily,
+	mathescape
+}
+\setlength\parindent{0pt}
+
+\pagestyle{fancy}
+\fancyhead[L]{Fragenkatalog}
+\fancyhead[R]{Netzwerkalgorithmen}
+
+\counterwithout{section}{chapter}
+\counterwithin{figure}{section}
+\setcounter{chapter}{1}
+
+\renewcommand{\labelitemi}{$-$}
+
+\renewcommand*{\algorithmcfname}{Algorithmus}
+\RestyleAlgo{boxed}
+\LinesNumbered
+\SetKwInOut{Input}{Eingabe}
+\SetKwInOut{Output}{Ausgabe}
+
+\begin{document}
+	\section{Minimale aufspannende Bäume}
+	\begin{enumerate}
+		\item Formuliere das Problem minimaler aufspannender Bäume.
+		\item Welche Eigenschaft muss eine optimale Lösung für dieses Problem haben?
+		\item Wie viele Kanten hat ein Baum mit n Knoten?
+		\item Bennene alle 7 äquivalenten Eigenschaften von Bäumen.
+		\item Beweise $1)\Rightarrow 7)$.
+		\item Beweise $7) \Rightarrow 5) \Rightarrow 4)$.
+		\item Beweise $4) \Rightarrow 6)$.
+		\item Beweise $6) \Rightarrow 2)$.
+		\item Beweise $3) \Rightarrow 1)$.
+		\item Formuliere den Algorithmus von Kruskal.
+		\item Welche Laufzeit hat der Algorithmus von Kruskal?
+		\item Welches Optimalitätskriterium benutzt Kruskal?
+		\item Formuliere Prims Algorithmus.
+		\item Welche Laufzeit hat Prims Algorithmus?
+		\item Welches Optimaltitätskriterium nutzt Prims Algorithmus?
+	\end{enumerate}
+	\section{Kürzeste Wege}
+	\begin{enumerate}
+		\item Formuliere das kürzeste Wege Problem.
+		\item Was sind konservative Kantengewichte?
+		\item Formuliere Dijkstras Algorithmus.
+		\item Welche Laufzeit hat Dijstras Algorithmus?
+		\item Formuliere den Algorithmus von Moore-Bellman-Ford.
+		\item Welche Laufzeit hat der Algorithmus von Moore-Bellman-Ford?
+	\end{enumerate}
+	\section{Netzwerkflüsse}
+	\begin{enumerate}
+		\item Was ist ein Fluss?
+		\item Erkläre Flusserhaltung.
+		\item Was ist eine Zirkulation?
+		\item Was ist ein $s$-$t$-Fluss?
+		\item Formuliere das maximale Fluss Problem.
+		\item Was ist ein $f$-augmentierender Pfad?
+		\item Formuliere den Algorithmus von Ford-Fulkerson.
+		\item Welches Optimalitätskriterium nutzt der Algorithmus von Ford-Fulkerson?
+		\item Was besagt das MaxFlow-MinCut Theorem?
+		\item Was sind die Schwierigkeiten von Ford-Fulkerson?
+		\item Formuliere den Algorithmus von Edmonds-Karp.
+		\item Welche Laufzeit hat der Edmonds-Karp Algorithmus?
+		\item Welches Optimalitätskriterium nutzt der Algorithmus von Edmonds-Karp?
+	\end{enumerate}
+	\section{Matching}
+	\begin{enumerate}
+		\item Was ist ein Matching?
+		\item Was ist ein perfektes Matching?
+		\item Was ist ein Vertex Cover?
+		\item Formuliere das maximale Matching Problem.
+		\item Formuliere das minimale Vertex Cover Problem.
+		\item Was gilt für max Matching und min Vertex Cover?
+		\item Was gilt für Matchings in bipartiten Graphen?
+		\item Was gilt für min Vertex Cover und max Matching in bipartiten Graphen?
+		\item Nenne die obere Schranke für das Kardinalitätsmatching Problem in bipartiten Graphen.
+		\item Was besagt der Satz von Hall?
+		\item Was besagt der Heiratssatz von Frobenius?
+		\item Formuliere den Algorithmus für maximales Matching in bipartiten Graphen.
+		\item Welches Optimalitätskriterium nutzt dieser Algorithmus?
+	\end{enumerate}	
+\end{document}
