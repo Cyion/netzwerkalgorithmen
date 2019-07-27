@@ -1,0 +1,296 @@
+\documentclass[a4paper,10pt]{scrreprt}
+\usepackage{sty/package}
+\usepackage{sty/document}
+\usepackage{sty/math}
+\usepackage{chngcntr}
+\usepackage{mathtools}
+\usepackage{algorithm2e}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+
+\lstset{
+	basicstyle=\ttfamily,
+	mathescape
+}
+\setlength\parindent{0pt}
+
+\pagestyle{fancy}
+\fancyhead[L]{Fragenkatalog Antworten}
+\fancyhead[R]{Netzwerkalgorithmen}
+
+\counterwithout{section}{chapter}
+\counterwithin{figure}{section}
+\setcounter{chapter}{1}
+
+\renewcommand{\labelitemi}{$-$}
+
+\renewcommand*{\algorithmcfname}{Algorithmus}
+\RestyleAlgo{boxed}
+\LinesNumbered
+\SetKwInOut{Input}{Eingabe}
+\SetKwInOut{Output}{Ausgabe}
+
+\begin{document}
+	\section{Minimale aufspannende Bäume}
+	\begin{enumerate}
+		\item Formuliere das Problem minimaler aufspannender Bäume.
+		
+		\textit{\hspace*{10pt}\textbf{Gegeben: } Ein Graph $G = (V, E)$, Gewichtfunktion
+			\begin{eqnarray*}
+				c : E &\to& \reell_+\\
+				e &\mapsto& c_e
+			\end{eqnarray*}
+			\hspace*{10pt}\textbf{Gesucht: } Eine Kantenmenge $F\subseteq E$ mit möglichst geringen Gesamtgewicht \hspace*{60pt} $\sum_{e \in F} c_e$, so dass in $T = (V, F)$ alle Knoten verbunden sind ODER \hspace*{60pt} entscheide, dass $G$ nicht zshgd. ist.}
+		\item Welche Eigenschaft muss eine optimale Lösung für dieses Problem haben?
+		
+		\textit{Eine optimale Lösung für das minimale Spannbaum Problem ist zusammenhängend und kreisfrei (ein Baum).}
+		\item Wie viele Kanten hat ein Baum mit n Knoten?
+		
+		\textit{Ein Baum mit $n$ Knoten hat $n-1$ Kanten.}
+		\item Bennene alle 7 äquivalenten Eigenschaften von Bäumen.
+		
+		\textit{Sei $T=(V,F)$ ein Graph mit $n$ Knoten. Dann sind äquivalent
+			\begin{enumerate}
+				\item $T$ ist ein Baum (zusammenhängend, kreisfrei)
+				\item $T$ hat $n-1$ Kanten und ist kreisfrei
+				\item $T$ hat $n-1$ Kanten und ist zusammenhängend
+				\item $T$ ist ein minimaler zusammenhängender Graph
+				\item $T$ ist ein minimaler Graph, für den es für jede Knotenmenge $\emptyset \neq X \subset V$ eine nach außen verbindende Kante gibt $\delta(X) \neq \emptyset$
+				\item $T$ ist ein maximaler kreisfreier Graph
+				\item $T$ enthält einen eindeutigen Pfad zwischen je zwei Knoten
+			\end{enumerate}}
+		\item Beweise $a)\Rightarrow g)$.
+		
+		\textit{Weil $T$ zusammenhängend ist, muss es je einen Pfad zwischen zwei Knoten geben. Gebe es zwischen zwei Knoten mehr als einen Pfad, so enthielte die Vereinigung der Pfade einen Kreis $\lightning$ Kreisfreiheit.}
+		\item Beweise $g) \Rightarrow e) \Rightarrow d)$.
+		
+		\textit{Dies folgt aus dem folgenden Lemma:\\
+			Ein ungerichteter Graph $G$ ist zusammenhängend $\Leftrightarrow \delta(X) \neq \emptyset~ \forall ~\emptyset \neq X \subset V(G)$.\\[5pt]
+			Beweis. Gibt es eine Menge $X\subset V(G)$ mit $r\in X,~v\in V(G)\setminus X$ und $\delta(X) = \emptyset$ dann kann es keinen $r$-$v$-Pfad geben, damit ist $G$ nicht zusammenhängend. Wenn $G$ nicht zusammenhängend ist, dann gibt es für irgendwelche Knoten $r$ und $v$ keinen $r$-$v$-Pfad. Sei $R$ die Menge der Knoten, die von $r$ aus erreichbar sind. Es gilt $r\in R,~v\notin R$ und $\delta(R)=\emptyset$.}
+		\item Beweise $d) \Rightarrow f)$.
+		
+		\textit{Da alle Knoten bereits verbunden sind, liefert jede eingefügte Kante einen Kreis.}
+		\item Beweise $f) \Rightarrow b) \Rightarrow c)$.
+		
+		\textit{Ist klar, wenn man Lemma 2.6 zeigt.}
+		\item Beweise $c) \Rightarrow a)$.
+		
+		\textit{Sei $T$ zusammenhängend mit $n-1$ Kanten. Solange Kreise in $T$ existieren löschen wir eine der Kanten des Kreises und entfernen somit den Kreis. Angenommen wir haben $k$ Kanten entfernt. Der entstehende Graph $T'$ ist immer noch zusammenhängend und kreisfrei. Wir haben $p=1$ Komponenten und $m=(n-1)-k$ Kanten $\overset{2.6}{\Rightarrow} n =m+p=n-1-k+1 \Rightarrow k=0$.}
+		\item Formuliere den Algorithmus von Kruskal.
+		\begin{algorithm}
+			\Input{Zshgd.er, ungerichteter Graph $G$\\Kantengewichte $c:E(G) \to \reell_+$}
+			\Output{Aufspannender Baum $T$ minimalen Gewichts}\vspace*{5pt}
+			Sortiere Kanten nach Gewicht\newline $c(e_1)\le c(e_2)\le ... \le c(e_m)$\\
+			Setze $T:=(V(G), \emptyset)$\\
+			\For{i=1 \KwTo m}
+			{
+				\uIf{$T+e_i$ enthält keinen Kreis}{$T:=T+e_i$}
+			}
+			\caption{Kruskals Algorithmus}
+		\end{algorithm}
+		\item Welche Laufzeit hat der Algorithmus von Kruskal?
+		
+		\textit{$O(m\cdot log(n))$.}
+		\item Welches Optimalitätskriterium benutzt Kruskal?
+		
+		\textit{$T$ ist optimal $\Leftrightarrow$ Für jede Kante $e=\set{x,y} \in E(G)\setminus E(T)$ hat keine Kante auf dem $x$-$y$-Pfad in $T$ höhere Kosten als $e$.}
+		\item Formuliere Prims Algorithmus.
+			\begin{algorithm}
+				\Input{Zshgd.er, ungerichteter Graph $G$\\Kantengewichte $c:E(G) \to \reell$}
+				\Output{Spannbaum $T$ minimalen Gewichts}\vspace*{5pt}
+				Wähle $v\in V(G)$\\
+				Setze $T:=(\set{v}, \emptyset)$\\
+				\While{$V(T) \neq V(G)$}
+				{
+					Wähle eine Kante $e\in \delta_G(V(T))$ mit minimalen Gewicht\\
+					Setze $T=T+e$
+				}
+				\caption{Prims Algorithmus}
+			\end{algorithm}
+		\item Welche Laufzeit hat Prims Algorithmus?
+		
+		\textit{$O(n^2)$.}
+		\item Welches Optimaltitätskriterium nutzt Prims Algorithmus?
+		
+		$T$ ist optimal $\Leftrightarrow$ Für jede Kante $e\in E(T)$ ist $e$ eine billigste Kante in $\delta(V(C))$, wobei $C$ eine ZhK von $T-e$ ist.
+	\end{enumerate}
+	\section{Kürzeste Wege}
+	\begin{enumerate}
+		\item Formuliere das kürzeste Wege Problem.
+		
+		\textit{\hspace*{10pt}\textbf{Gegeben: }Gerichteter Graph $G$, Gewichte $c:A(G)\to \reell$, zwei ausgezeichnete \hspace*{56pt} Knoten $s,~t$.\\[5pt]
+			\hspace*{10pt}\textbf{Gesucht: }$s$-$t$-Pfad minimalen Gesamtgewichts.}
+		\item Was sind konservative Kantengewichte?
+		
+		\textit{Ein Graph hat konservative Kantengewichte, wenn keine Kreise negativen Gesamtgewichts enthalten sind.}
+		\item Formuliere Dijkstras Algorithmus.
+		\begin{algorithm}
+			\Input{Digraph $G$, Gewichte $c:A(G)\to \reell_+$, Knoten $s\in V(G)$}
+			\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge, genauer $L(v),~p(v)$}\vspace*{5pt}
+			Setze $L(s) = 0$\\
+			\hspace*{25pt}$L(v) = \infty~\forall v \in V(G)\setminus \set{s}$\\
+			\hspace*{25pt}$R = \emptyset$\\
+			Finde einen Knoten $v\in V(G)\setminus R$ mit $L(v) = \underset{\mathclap{w\in V(G)\setminus R}}{min}~L(w)$\\
+			Setze $R = R \cup \set{v}$\\
+			\For{$\forall w \in V(G)\setminus R$ mit $(v,w) \in A(G)$}{
+				\If{$L(w)>L(v) + c((v,w))$}{
+					Setze $L(w) = L(v) + c((v,w))$\\
+					$p(w) = v$
+				}
+			}
+			\If{$R\neq V(G)$}{\textbf{goto} 4}
+			\caption{Dijkstras Algorithmus}
+		\end{algorithm}
+		\item Welche Laufzeit hat Dijstras Algorithmus?
+		
+		$O(n^2)$.
+		\item Formuliere den Algorithmus von Moore-Bellman-Ford.
+		\begin{algorithm}
+			\Input{Digraph $G$, konservative Gewichte $c:A(G)\to \reell$, Knoten $s\in V(G)$}
+			\Output{Kürzeste Wege von $s$ zu allen $v\in V(G)$ und ihre Länge}\vspace*{5pt}
+			Setze $L(s) = 0$\\
+			\hspace*{25pt}$L(v) = \infty~\forall v \in V(G)\setminus \set{s}$\\
+			\For{$i=1$ \textbf{to} $n-1$}{
+				\For{jede Kante $(v,w)\in A(G)$}{
+					\If{$L(w)>L(v) + c((v,w))$}{
+						Setze $L(w) = L(v) + c((v,w))$\\
+						$p(w) = v$
+					}
+				}
+			}
+			\caption{Moore-Bellman-Ford Algorithmus}
+		\end{algorithm}
+		\item Welche Laufzeit hat der Algorithmus von Moore-Bellman-Ford?
+		
+		$O(m\cdot n)$.
+	\end{enumerate}
+	\section{Netzwerkflüsse}
+	\begin{enumerate}
+		\item Was ist ein Fluss?
+		
+		\textit{Sei $G$ ein Digraph mit Kapazität $u:E(G)\to \reell_+$. Ein Fluss ist eine Funktion $f: E(G) \to \reell_+$ mit $f(e)\le u(e)~\forall e\in E(G)$.}
+		\item Erkläre Flusserhaltung.
+		
+		\textit{ \[\sum_{e\in \delta^-(v)} f(e) = \sum_{e\in \delta^+(v)} f(e).\]}
+		\item Was ist eine Zirkulation?
+		
+		\textit{Ein Fluss für den an jedem Knoten Flusserhaltung gilt.}
+		\item Was ist ein $s$-$t$-Fluss?
+		
+		\textit{Ein Fluss ist ein $s$-$t$-Fluss, wenn Flusserhaltung an allen Knoten außer $s$ und $t$ gilt
+			\[Wert(f) :=\sum_{e\in \delta^+(s)} f(e) - \sum_{e\in \delta^-(s)} f(e).\]}
+		\item Formuliere das maximale Fluss Problem.
+		
+		\textit{\hspace*{10pt}\textbf{Gegeben: }Netzwerk $(G, u, s, t)$.\\[5pt]
+			\hspace*{10pt}\textbf{Gesucht: }Ein $s$-$t$-Fluss mit maximalem Wert.}
+		\item Was ist ein $f$-augmentierender Pfad?
+		
+		\textit{Ein $f$-augmentierender Pfad in einem Netzwerk $(G, u, s, t)$ mit einem Fluss $f$ ist ein $s$-$t$-Pfad im Residualgraph $G_f$.}
+		\item Formuliere den Algorithmus von Ford-Fulkerson.
+		\begin{algorithm}
+			\Input{Netzwerk $(G, u, s, t)$}
+			\Output{Ein $s$-$t$-Fluss $f$ mit maximalem Wert}\vspace*{5pt}
+			Setze $f(e)=0~\forall e\in A(G)$\\
+			Finde einen $f$-augmentierenden Pfad $P$\\
+			\hspace*{15pt}Falls keiner existiert: \textbf{stop} \\
+			Berechne $\gamma := \underset{e\in P}{min}~ u_f(e)$\\
+			\hspace*{15pt}Augmentiere $f$ entlang $P$ um $\gamma$ und \textbf{goto} 2
+			\caption{Ford-Fulkerson Algorithmus}
+		\end{algorithm}
+		\item Welches Optimalitätskriterium nutzt der Algorithmus von Ford-Fulkerson?
+		
+		\textit{Ein $s$-$t$-Fluss ist optimal $\Leftrightarrow$ Es gibt keinen $f$-augmentierenden Pfad.}
+		\item Was besagt das MaxFlow-MinCut Theorem?
+			
+		\textit{In einem Netzwerk $(G, u, s, t)$ ist der maximale Wert eines $s$-$t$-Flusses gleich der minimalen Kapazität eines $s$-$t$-Schnittes.}
+		\item Was sind die Schwierigkeiten von Ford-Fulkerson?
+		
+		\textit{Ford-Fulkerson nimmt nicht immer den optimalen $f$-augmentierenden Pfad.}
+		\item Formuliere den Algorithmus von Edmonds-Karp.
+		\begin{algorithm}
+			\Input{Netzwerk $(G, u, s, t)$}
+			\Output{Ein $s$-$t$-Fluss $f$ mit maximalem Wert}\vspace*{5pt}
+			Setze $f(e)=0~\forall e\in A(G)$\\
+			Finde einen kürzesten $f$-augmentierenden Pfad $P$\\
+			\hspace*{15pt}Falls keiner existiert: \textbf{stop} \\
+			Berechne $\gamma := \underset{e\in P}{min}~ u_f(e)$\\
+			\hspace*{15pt}Augmentiere $f$ entlang $P$ um $\gamma$ und \textbf{goto} 2
+			\caption{Edmonds-Karp Algorithmus}
+		\end{algorithm}
+		\item Welche Laufzeit hat der Edmonds-Karp Algorithmus?
+		
+		$O(m^2 \cdot n)$.
+		\item Welches Optimalitätskriterium nutzt der Algorithmus von Edmonds-Karp?
+		
+		\textit{Ein $s$-$t$-Fluss ist optimal $\Leftrightarrow$ Es gibt keinen $f$-augmentierenden Pfad.}
+	\end{enumerate}
+	\section{Matching}
+	\begin{enumerate}
+		\item Was ist ein Matching?
+		
+		\textit{Ein Matching $M$ in einem Graph $G=(V,E)$ ist eine Menge paarweise disjunkter Kanten.}
+		\item Was ist ein perfektes Matching?
+		
+		\textit{Ein Matching heißt perfekt, wenn jeder Knoten in $V(G)$ zu einer Matchingkante gehört.}
+		\item Was ist ein Vertex Cover?
+		
+		\textit{Ein Vertex Cover ist eine Kantenüberdeckende Knotenmenge.}
+		\item Formuliere das maximale Matching Problem.
+		
+			\textit{\hspace*{10pt}\textbf{Gegeben: }Ungerichteter Graph $G = (V,E)$.\\[5pt]
+			\hspace*{10pt}\textbf{Gesucht: }Ein Matching $M$ größtmöglicher Kardinalität.}
+		\item Formuliere das minimale Vertex Cover Problem.
+		
+			\textit{\hspace*{10pt}\textbf{Gegeben: }Ungerichteter Graph $G = (V,E)$.\\[5pt]
+			\hspace*{10pt}\textbf{Gesucht: }Ein Vertex Cover $C$ kleinstmöglicher Kardinalität.}
+		\item Was gilt für max Matching und min Vertex Cover in einem ungerichteten Graphen $G$?
+		
+		\textit{max Matching $\le$ min Vertex Cover.}
+		\item Was gilt für Matchings in bipartiten Graphen?
+		
+		\textit{Ein bipartites Matching maximaler Kardinalität in $G$ entspricht einem maximalen Fluss in $(G',u,s,t)$ und umgekehrt.}
+		\item Was gilt für min Vertex Cover und max Matching in bipartiten Graphen?
+		
+		\textit{$\mathcal{V}(G) = \mathcal{T}(G)$.}
+		\item Nenne die obere Schranke für das Kardinalitätsmatching Problem in bipartiten Graphen.
+		
+		\textit{$O(n\cdot m)\to$ Ford-Fulkerson.}
+		\item Was besagt der Satz von Hall?
+		
+		\textit{Ein bipartiter Graph $G$ mit $V(G)=A\dot\cup B$ hat ein $A$ überdeckendes Matching, genau dann wenn für alle Teilmengen von $A$ die Anzahl der Nachbarn größer oder gleich der Teilmenge ist, also $\card{T(X)} \ge \card{X}~\forall X\subseteq A$.}
+		\item Was besagt der Heiratssatz von Frobenius?
+		
+		\textit{Ein bipartiter Graph $G$ mit $V(G) = A\dot\cup B$ hat ein perfektes Matching, genau dann wenn $\card{A}=\card{B}$ und ein $A$ überdeckendes Matching existiert, also $\card{T(X)} \ge \card{X}~\forall X \subseteq A$.}
+		\item Formuliere den Algorithmus für maximales Matching in bipartiten Graphen.
+		\begin{algorithm}
+			\Input{$G=(V,E)$ mit $V=V_1 \dot\cup V_2$}
+			\Output{Maximales Matching $M$}\vspace*{5pt}
+			Setze $M=\emptyset, R=\emptyset$\\
+			\While{$\exists r\in V_1\setminus R$ ungematcht}{
+				Wähle $r\in V_1\setminus R$ ungematcht\\
+				Setze $T:=(\set{r}, \emptyset)$\\
+				$R:= R \cup \set{r}$\\
+				$W(T) = \set{r}$\\
+				\While{$\exists \set{v,w} \in E$ mit $v \in W(T) \wedge w\notin V(T)$}{
+					\eIf{$w$ ist ungematcht}{
+						Benutze $\set{v,w}$ um augmentierenden Pfad zu komplettieren\\
+						\hspace*{10pt}$\hookrightarrow$ augmentiere $M$\\
+						\If{es gibt keinen ungematchten Knoten mehr}{
+							\textbf{return} \glqq Perfektes Matching\grqq				
+						}
+						\textbf{goto} 2
+					}{
+					Benutze $\set{v,w}$ um $T$ zu erweitern
+				}
+			}
+		}
+		\textbf{return} Maximales Matching $M$
+		\caption{Maximales Matching in bipartiten Graphen}
+	\end{algorithm}
+		\item Welches Optimalitätskriterium nutzt dieser Algorithmus?
+		
+		\textit{Sei $G$ ein Graph mit einem beliebigen Matching $M$, $M$ hat max Kardinalität $\Leftrightarrow$ Es gibt keinen $M$-augmentierenden Pfad. (Satz von Berg)}
+	\end{enumerate}	
+\end{document}
